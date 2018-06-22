@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whxx.hms.dao.RoomTypeHistoryMapper">
+	<insert id="insertRoomTypeHistory"
+		parameterType="com.whxx.hms.model.RoomTypeHistory">
+		insert into room_type_history
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roomTypeHistoryId != null">
+				ROOM_TYPE_HISTORY_ID_,
+			</if>
+			<if test="hotelGroupId != null">
+				HOTEL_GROUP_ID_,
+			</if>
+			<if test="hotelId != null">
+				HOTEL_ID_,
+			</if>
+			<if test="lineNo != null">
+				LINE_NO_,
+			</if>
+			<if test="roomTypeCode != null">
+				ROOM_TYPE_CODE_,
+			</if>
+			<if test="roomTypeName != null">
+				ROOM_TYPE_NAME_,
+			</if>
+			<if test="roomTypeEnName != null">
+				ROOM_TYPE_EN_NAME_,
+			</if>
+			<if test="num != null">
+				NUM_,
+			</if>
+			<if test="overNumOld != null">
+				OVER_NUM_OLD_,
+			</if>
+			<if test="overNumNew != null">
+				OVER_NUM_NEW_,
+			</if>
+			<if test="maxPerson != null">
+				MAX_PERSON_,
+			</if>
+			<if test="seq != null">
+				SEQ_,
+			</if>
+			<if test="stopped != null">
+				STOPPED_,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="createEmp != null">
+				CREATE_EMP_,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE_,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE_,
+			</if>
+			<if test="updateEmp != null">
+				UPDATE_EMP_,
+			</if>
+			<if test="version != null">
+				VERSION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roomTypeHistoryId != null">
+				#{roomTypeHistoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelGroupId != null">
+				#{hotelGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelId != null">
+				#{hotelId,jdbcType=INTEGER},
+			</if>
+			<if test="lineNo != null">
+				#{lineNo,jdbcType=VARCHAR},
+			</if>
+			<if test="roomTypeCode != null">
+				#{roomTypeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roomTypeName != null">
+				#{roomTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="roomTypeEnName != null">
+				#{roomTypeEnName,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=INTEGER},
+			</if>
+			<if test="overNumOld != null">
+				#{overNumOld,jdbcType=INTEGER},
+			</if>
+			<if test="overNumNew != null">
+				#{overNumNew,jdbcType=INTEGER},
+			</if>
+			<if test="maxPerson != null">
+				#{maxPerson,jdbcType=INTEGER},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=INTEGER},
+			</if>
+			<if test="stopped != null">
+				#{stopped,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createEmp != null">
+				#{createEmp,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateEmp != null">
+				#{updateEmp,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="listRoomTypeHistory" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select ROOM_TYPE_CODE_ roomTypeCode, ROOM_TYPE_NAME_ roomTypeName,
+		OVER_NUM_OLD_ overNumOld, OVER_NUM_NEW_ overNumNew,
+		UPDATE_DATE_ updateDate, UPDATE_EMP_ updateEmp
+		from room_type_history where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+</mapper>

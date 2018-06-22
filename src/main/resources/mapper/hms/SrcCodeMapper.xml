@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.SrcCodeMapper">
+
+	<select id="listSrcCode" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select
+		SRC_CODE_ID_ srcCodeId,
+		SEQ_ seq, SRC_CODE_ srcCode,
+		ZH_NAME_ zhName, EN_NAME_ enName,
+		SRC_GROUP_ srcGroup, STOPPED_
+		stopped,CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from src_code
+		where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectSrcCodeByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.SrcCode">
+		select SRC_CODE_ID_ srcCodeId,
+		SEQ_ seq, SRC_CODE_ srcCode,
+		ZH_NAME_ zhName, EN_NAME_ enName,
+		SRC_GROUP_ srcGroup, STOPPED_
+		stopped,CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from src_code where
+		ZH_NAME_
+		=#{zhName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updateSrcCode"
+		parameterType="com.whxx.hms.model.SrcCode">
+		    update src_code
+    <set>
+      <if test="hotelGroupId != null">
+        HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="hotelId != null">
+        HOTEL_ID_ = #{hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="lineNo != null">
+        LINE_NO_ = #{lineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        SEQ_ = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="srcCode != null">
+        SRC_CODE_ = #{srcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="zhName != null">
+        ZH_NAME_ = #{zhName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null">
+        EN_NAME_ = #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="srcGroup != null">
+        SRC_GROUP_ = #{srcGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="stopped != null">
+        STOPPED_ = #{stopped,jdbcType=VARCHAR},
+      </if>
+      <if test="createEmp != null">
+        CREATE_EMP_ = #{createEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE_ = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateEmp != null">
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+       VERSION =VERSION+1
+      
+    </set>
+    where SRC_CODE_ID_ = #{srcCodeId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="isSrcCodeConfigCode" resultType="java.lang.String">
+		select SRC_CODE_ID_
+		srcCodeId from src_code where SRC_CODE_
+		=#{srcCodeCode}
+	</select>
+
+	<delete id="deleteSrcCodeById" parameterType="java.lang.String">
+		delete from
+		src_code where SRC_CODE_ID_ =#{srcCodeId}
+	</delete>
+
+	<insert id="insertSrcCode"
+		parameterType="com.whxx.hms.model.SrcCode">
+		 insert into src_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="srcCodeId != null">
+        SRC_CODE_ID_,
+      </if>
+      <if test="hotelGroupId != null">
+        HOTEL_GROUP_ID_,
+      </if>
+      <if test="hotelId != null">
+        HOTEL_ID_,
+      </if>
+      <if test="lineNo != null">
+        LINE_NO_,
+      </if>
+      <if test="seq != null">
+        SEQ_,
+      </if>
+      <if test="srcCode != null">
+        SRC_CODE_,
+      </if>
+      <if test="zhName != null">
+        ZH_NAME_,
+      </if>
+      <if test="enName != null">
+        EN_NAME_,
+      </if>
+      <if test="srcGroup != null">
+        SRC_GROUP_,
+      </if>
+      <if test="stopped != null">
+        STOPPED_,
+      </if>
+      <if test="createEmp != null">
+        CREATE_EMP_,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE_,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE_,
+      </if>
+      <if test="updateEmp != null">
+        UPDATE_EMP_,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="srcCodeId != null">
+        #{srcCodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelGroupId != null">
+        #{hotelGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="hotelId != null">
+        #{hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="lineNo != null">
+        #{lineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="srcCode != null">
+        #{srcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="zhName != null">
+        #{zhName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null">
+        #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="srcGroup != null">
+        #{srcGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="stopped != null">
+        #{stopped,jdbcType=VARCHAR},
+      </if>
+      <if test="createEmp != null">
+        #{createEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateEmp != null">
+        #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+	</insert>
+
+	<select id="isSrcCodeSeq" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select SRC_CODE_ID_
+		srcCodeId from src_code where SEQ_
+		=#{seq}
+	</select>
+</mapper>

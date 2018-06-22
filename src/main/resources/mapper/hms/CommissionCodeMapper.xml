@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.CommissionCodeMapper">
+
+	<!-- 佣金码下拉框 -->
+	<select id="commissionCodeDropList" parameterType="com.whxx.hms.model.dto.HotelGroupId" resultType="com.whxx.hms.model.dto.DropdownDto">
+	select
+	COMMISSION_CODE id,
+	NOTICE_ text
+	from
+	commission_code
+	where STOPPED_ = 'N'
+	AND  HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER}
+	AND HOTEL_ID_ = #{hotelId,jdbcType=INTEGER}
+	</select>
+
+</mapper>

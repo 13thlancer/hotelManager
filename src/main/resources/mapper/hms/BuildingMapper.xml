@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.BuildingMapper">
+
+	<select id="buildingDropList" parameterType="java.util.Map"  resultType="com.whxx.hms.model.dto.DropdownDto">
+		select 
+		BUILDING_CODE_ id,
+		BUILDING_NAME_ text
+		from building where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+		order by SEQ_+ 0
+	</select>
+
+
+	<select id="listBuilding" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select BUILDING_ID_ buildingId, BUILDING_CODE_
+		buildingCode,
+		BUILDING_NAME_ buildingName,
+		BUILDING_EN_NAME_
+		buildingEnName,SEQ_ seq,
+		STOPPED_ stopped,
+		REMARK remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from building where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectBuildingByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.Building">
+		select BUILDING_CODE_
+		buildingCode,
+		BUILDING_ID_ buildingId,
+		BUILDING_NAME_
+		buildingName,
+		BUILDING_EN_NAME_
+		buildingEnName,SEQ_ seq,
+		STOPPED_
+		stopped,
+		REMARK remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from building where BUILDING_NAME_ =#{buildingName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+	
+	<update id="updateBuilding" parameterType="com.whxx.hms.model.Building">
+	 update building
+    set 
+      BUILDING_NAME_ = #{buildingName,jdbcType=VARCHAR},
+      BUILDING_EN_NAME_ = #{buildingEnName,jdbcType=VARCHAR},
+      STOPPED_ = #{stopped,jdbcType=VARCHAR},
+      UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP}, 
+      UPDATE_EMP_ =#{updateEmp,jdbcType=TIMESTAMP},
+      VERSION = VERSION+1
+      where BUILDING_ID_ =#{buildingId}
+	</update>
+	
+	<select id="isBuildingConfigCode" resultType="java.lang.String">
+	select BUILDING_ID_ buildingId from building where BUILDING_CODE_ =#{buildingCode}
+	</select>
+	
+	<delete id="deleteBuildingById" parameterType="java.lang.String">
+	delete from building where BUILDING_ID_ =#{buildingId}
+	</delete>
+	
+	<insert id="insertBuilding" parameterType="com.whxx.hms.model.Building">
+    insert into building (BUILDING_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, BUILDING_CODE_, BUILDING_NAME_, 
+      BUILDING_EN_NAME_, SEQ_,
+      STOPPED_, CREATE_EMP_, CREATE_DATE_, 
+      UPDATE_DATE_, UPDATE_EMP_,VERSION
+      )
+    values (#{buildingId,jdbcType=VARCHAR},#{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{buildingCode,jdbcType=VARCHAR}, #{buildingName,jdbcType=VARCHAR}, 
+      #{buildingEnName,jdbcType=VARCHAR},  #{seq,jdbcType=VARCHAR},
+      #{stopped,jdbcType=VARCHAR}, #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR},#{version,jdbcType=INTEGER}
+      )
+  </insert>
+</mapper>

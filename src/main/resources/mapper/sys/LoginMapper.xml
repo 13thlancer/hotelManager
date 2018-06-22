@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.core.dao.LoginMapper">
+
+    <select id="getManager" resultType="com.whxx.core.model.Manager">
+        SELECT
+          id_ id,
+          account_ account,
+          name_ name,
+          password_ password,
+          salt_ salt
+        FROM tb_manager
+        WHERE
+        account_ = #{account}
+    </select>
+
+
+    <select id="getAuthList" resultType="com.whxx.core.model.Menu">
+    SELECT
+    DISTINCT
+    c.url_ url,
+    c.code_ code
+    FROM
+    tb_manager_role a
+    left JOIN tb_role_menu b
+    on a.roleId_ = b.rolenum_
+    left JOIN tb_menu c
+    ON c.num_ = b.menuid_
+    WHERE c.isMenu_ = 0
+    AND
+    a.managerId_ = #{id}
+</select>
+
+    <select id="getMenuList" resultType="map">
+        SELECT
+        DISTINCT
+        c.url_ url,
+        c.code_ code,
+        c.pcode_ pcode,
+        c.name_ name
+        FROM
+        tb_manager_role a
+        left JOIN tb_role_menu b
+        on a.roleId_ = b.rolenum_
+        left JOIN tb_menu c
+        ON c.code_ = b.menuid_
+        WHERE c.isMenu_ = 1
+        AND
+        a.managerId_ = #{id}
+        ORDER  BY c.levels_,c.seq_
+    </select>
+
+</mapper>

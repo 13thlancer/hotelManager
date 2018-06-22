@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.HotelMapper">
+
+	<select id="selectByHotelCode" parameterType="String"
+		resultType="com.whxx.hms.model.TbHotel">
+		select HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ hotelId
+		from tb_hotel where
+		HOTEL_CODE_=#{hotelCode}
+	</select>
+
+	<!-- 酒店选择下拉框 -->
+	<select id="selectHotelDropdown" parameterType="map"
+		resultType="map">
+		SELECT HOTEL_ID_ id,HOTEL_NAME_ text
+		FROM tb_HOTEL
+		WHERE 1=1
+
+		<if test="hotelGroupId != null and hotelGroupId != ''">
+			AND HOTEL_GROUP_ID_ = #{hotelGroupId}
+		</if>
+
+		ORDER BY LINE_NO_
+	</select>
+</mapper>

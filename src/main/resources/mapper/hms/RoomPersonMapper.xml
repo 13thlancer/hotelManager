@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.RoomPersonMapper">
+
+
+	<sql id="Base_Column_List">
+	 ROOM_PERSON_ID_ roomPersonId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 LINE_NO_ lineNo,
+	 MAIN_ID_ mainId,
+	 SUB_ID_ subId,
+	 ROOM_CODE_ roomCode,
+	 PERSON_NAME_ personName,
+	 CARD_TYPE_ cardType,
+	 SEX_ sex,
+	 NATION_ nation,
+	 CARD_NO_ cardNo,
+	 BIRTHDAY_ birthDay,
+	 ADDRESS_ address,
+	 MOBILE_ mobile,
+	 EMAIL_ email,
+	 VIP_NUM_ vipNum,
+	 REMARK remark,
+	 CREATE_EMP_ createEmp,
+	 CREATE_DATE_ createDate
+  </sql>
+  
+ <select id="selectBySubId" resultType="com.whxx.hms.model.RoomPerson" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from room_person
+    where SUB_ID_ = #{subId,jdbcType=VARCHAR}
+    order by CREATE_DATE_ 
+  </select>
+
+   <insert id="insertRoomPerson" parameterType="com.whxx.hms.model.RoomPerson">
+    insert into room_person (ROOM_PERSON_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, MAIN_ID_, SUB_ID_, 
+      ROOM_CODE_, PERSON_NAME_, CARD_TYPE_, 
+      SEX_, NATION_, CARD_NO_, 
+      BIRTHDAY_, ADDRESS_, MOBILE_, 
+      EMAIL_, VIP_NUM_, REMARK, 
+      CREATE_EMP_, CREATE_DATE_, UPDATE_DATE_, 
+      UPDATE_EMP_, VERSION)
+    values (#{roomPersonId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{mainId,jdbcType=VARCHAR}, #{subId,jdbcType=VARCHAR}, 
+      #{roomCode,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{vipNum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER})
+  </insert>
+  
+   <update id="updateById" parameterType="com.whxx.hms.model.RoomPerson" >
+    update room_person
+    <set >
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(personName)" >
+        PERSON_NAME_ = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(cardType)" >
+        CARD_TYPE_ = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(sex)" >
+        SEX_ = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(nation)" >
+        NATION_ = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(cardNo)" >
+        CARD_NO_ = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(birthday)" >
+        BIRTHDAY_ = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(address)" >
+        ADDRESS_ = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mobile)" >
+        MOBILE_ = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(email)" >
+        EMAIL_ = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(vipNum)" >
+        VIP_NUM_ = #{vipNum,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateDate)" >
+        UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)" >
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+        VERSION = VERSION + 1
+    </set>
+    where ROOM_PERSON_ID_ = #{roomPersonId,jdbcType=VARCHAR}
+  </update>
+  
+    <delete id="deleteById" parameterType="java.lang.String" >
+    delete from room_person
+    where ROOM_PERSON_ID_ = #{roomPersonId,jdbcType=VARCHAR}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.MarketCodeMapper">
+
+	<select id="listMarketCode" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select
+		MARKET_CODE_ID_ marketCodeId,
+		SEQ_ seq, MARKET_CODE_
+		marketCode , ZH_NAME_ zhName,
+		EN_NAME_ enName, SIGN_TYPE_ signType,
+		ROOM_PRICE_TYPE_ roomPriceType, STOPPED_ stopped, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from
+		market_code
+		where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectMarketCodeByName"
+		parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.MarketCode">
+		select MARKET_CODE_ID_ marketCodeId,
+		SEQ_ seq, MARKET_CODE_
+		marketCode , ZH_NAME_ zhName,
+		EN_NAME_ enName, SIGN_TYPE_ signType,
+		ROOM_PRICE_TYPE_ roomPriceType, STOPPED_ stopped, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from market_code where
+		ZH_NAME_
+		=#{zhName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updateMarketCode"
+		parameterType="com.whxx.hms.model.MarketCode">
+		update market_code
+		SEQ_ = #{seq,jdbcType=INTEGER},
+		ZH_NAME_ =#{zhName,jdbcType=VARCHAR},
+		EN_NAME_ =
+		#{enName,jdbcType=VARCHAR},
+		SIGN_TYPE_ = #{signType,jdbcType=VARCHAR},
+		ROOM_PRICE_TYPE_ =
+		#{roomPriceType,jdbcType=VARCHAR},
+		STOPPED_ =
+		#{stopped,jdbcType=VARCHAR},
+		CREATE_EMP_ =
+		#{createEmp,jdbcType=VARCHAR},
+		CREATE_DATE_ =
+		#{createDate,jdbcType=TIMESTAMP},
+		UPDATE_DATE_ =
+		#{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_EMP_ =
+		#{updateEmp,jdbcType=VARCHAR},
+		VERSION = VERSION+1
+		where MARKET_CODE_ID_=#{marketCodeId}
+	</update>
+
+	<select id="isMarketCodeConfigCode" resultType="java.lang.String">
+		select
+		MARKET_CODE_ID_
+		marketCodeId from market_code where MARKET_CODE_
+		=#{marketCodeCode}
+	</select>
+
+	<delete id="deleteMarketCodeById"
+		parameterType="java.lang.String">
+		delete from
+		market_code where MARKET_CODE_ID_
+		=#{marketCodeId}
+	</delete>
+
+	<insert id="insertMarketCode"
+		parameterType="com.whxx.hms.model.MarketCode">
+		insert into market_code (MARKET_CODE_ID_,
+		HOTEL_GROUP_ID_, HOTEL_ID_,
+		LINE_NO_, SEQ_, MARKET_CODE_,
+		ZH_NAME_,
+		EN_NAME_, SIGN_TYPE_,
+		ROOM_PRICE_TYPE_, STOPPED_, CREATE_EMP_,
+		CREATE_DATE_, UPDATE_DATE_, UPDATE_EMP_,VERSION
+		)
+		values
+		(#{marketCodeId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{lineNo,jdbcType=VARCHAR},
+		#{seq,jdbcType=INTEGER}, #{marketCode,jdbcType=VARCHAR},
+		#{zhName,jdbcType=VARCHAR}, #{enName,jdbcType=VARCHAR},
+		#{signType,jdbcType=VARCHAR},
+		#{roomPriceType,jdbcType=VARCHAR},
+		#{stopped,jdbcType=VARCHAR}, #{createEmp,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+		#{updateEmp,jdbcType=VARCHAR},
+		#{version,jdbcType=INTEGER})
+	</insert>
+
+	<select id="isMarketCodeSeq" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select MARKET_CODE_ID_
+		marketCodeId from market_code where
+		SEQ_
+		=#{seq}
+	</select>
+</mapper>

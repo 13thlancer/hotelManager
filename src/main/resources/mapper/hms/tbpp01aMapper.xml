@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.Tbpp01aMapper">
+
+	<!-- 查询编码下拉框 -->
+	<select id="selectConfigCode"  parameterType="Map" resultType="com.whxx.hms.model.dto.DropdownDto">
+		SELECT
+		DESC_ id,
+		DESC1_ text
+		FROM TBPP01A
+		WHERE CONFIG_CODE_= #{configCode} AND STOPPED_ = 'N'
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  HOTEL_ID_ = #{hotelId}
+      </if>
+		ORDER BY SEQ_ 
+	</select>
+	
+	
+	
+	<select id="listSecond" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select TBPP01A_ID_ tbpp01aId,
+		CONFIG_CODE_ configCode,
+		ZH_NAME_ zhName,
+		EN_NAME_ enName,
+		SEQ_ seq,
+		DESC_ desc,
+		STOPPED_ stopped,
+		CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from tbpp01a
+		WHERE CONFIG_CODE_ =#{configCode}
+		ORDER BY
+		SEQ_ ASC
+	</select>
+
+	<insert id="insertSecondCode"
+		parameterType="com.whxx.hms.model.Tbpp01a">
+		insert into tbpp01a
+		(TBPP01A_ID_,HOTEL_GROUP_ID_,HOTEL_ID_,TBPP01_ID_,
+		CONFIG_CODE_,ZH_NAME_,EN_NAME_,
+		SYS_FLAG_,STOPPED_,SEQ_,DESC_,
+		CREATE_EMP_,CREATE_DATE_,
+		UPDATE_DATE_,UPDATE_EMP_,VERSION)
+		values
+		(#{tbpp01aId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=BIGINT},
+		#{hotelId,jdbcType=BIGINT},
+		#{tbpp01Id,jdbcType=VARCHAR},
+		#{configCode,jdbcType=VARCHAR}, #{zhName,jdbcType=VARCHAR},
+		#{enName,jdbcType=VARCHAR}, #{sysFlag,jdbcType=VARCHAR},
+		#{stopped,jdbcType=VARCHAR},
+		#{seq,jdbcType=VARCHAR},#{desc}
+		#{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR},
+		#{version,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<select id="selectSecondCodeByName"
+		parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.Tbpp01a">
+		select CONFIG_CODE_ configCode,
+		ZH_NAME_ zhName,
+		EN_NAME_
+		enName,
+		SEQ_ seq,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from tbpp01a
+		WHERE
+		ZH_NAME_ =#{zhName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updateSecondCode" parameterType="com.whxx.hms.model.Tbpp01a">
+	update tbpp01a
+    set 
+      ZH_NAME_ = #{zhName,jdbcType=VARCHAR},
+      EN_NAME_ = #{enName,jdbcType=VARCHAR},
+      STOPPED_ = #{stopped,jdbcType=VARCHAR},
+      UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP}, 
+      UPDATE_EMP_ =#{updateEmp,jdbcType=TIMESTAMP},
+      VERSION = VERSION+1
+      where TBPP01A_ID_ =#{tbpp01aId}
+	</update>
+	
+	<delete id="deleteSecondCodeById" parameterType="java.lang.String">
+	UPDATE  tbpp01a set SYS_FLAG_ ='N' where TBPP01A_ID_ =#{tbpp01aId}
+	</delete>
+	
+	<select id="isFirstSeq" resultType="java.lang.String">
+	select TBPP01A_ID_ from tbpp01a where TBPP01_ID_=#{tbpp01Id} and SEQ_ =#{seq}
+	</select>
+	<select id="isFirstConfigCode" resultType="java.lang.String">
+	select TBPP01A_ID_ from tbpp01a where TBPP01_ID_=#{tbpp01Id} and CONFIG_CODE_ =#{configCode}
+	</select>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.PayCodeMapper">
+
+	<!-- 付款方式下拉框 -->
+	<select id="payCodeDropList" parameterType="com.whxx.hms.model.dto.HotelGroupId" resultType="com.whxx.hms.model.dto.DropdownDto">
+	select
+	PAY_CODE_ id,
+	ZH_NAME_ text
+	from
+	pay_code
+	where STOPPED_ = 'N'
+	AND  HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER}
+	AND HOTEL_ID_ = #{hotelId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 预授权付款方式下拉框 -->
+	<select id="paylicenceCodeDropList" parameterType="com.whxx.hms.model.dto.HotelGroupId" resultType="com.whxx.hms.model.dto.DropdownDto">
+	select
+	PAY_CODE_ id,
+	ZH_NAME_ text
+	from
+	pay_code
+	where STOPPED_ = 'N'
+	AND PAY_TYPE_ IN ('C','D') 
+	AND  HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER}
+	AND HOTEL_ID_ = #{hotelId,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="listPayCode" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select
+		PAY_CODE_ID_ payCodeId,
+		SEQ_ seq, PAY_CODE_ payCode,
+		ZH_NAME_ zhName, EN_NAME_ enName,
+		AREAS_ areas, PAY_TYPE_ payType,
+		INNER_CODE_ innerCode, BACKPAY_CODE_ backpayCode, CREDIT_FLAG_
+		creditFlag,
+		EARNEST_FLAG_ earnestFlag,
+		STOPPED_ stopped,
+		CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from pay_code
+		where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectPayCodeByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.PayCode">
+		select PAY_CODE_ID_ payCodeId,
+		SEQ_ seq, PAY_CODE_ payCode,
+		ZH_NAME_ zhName, EN_NAME_ enName,
+		AREAS_ areas, PAY_TYPE_ payType,
+		INNER_CODE_ innerCode, BACKPAY_CODE_ backpayCode, CREDIT_FLAG_
+		creditFlag,
+		EARNEST_FLAG_ earnestFlag,
+		STOPPED_ stopped,
+		CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from pay_code where
+		ZH_NAME_ =#{zhName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updatePayCode"
+		parameterType="com.whxx.hms.model.PayCode">
+		update pay_code
+		set
+		SEQ_ = #{seq,jdbcType=INTEGER},
+		ZH_NAME_ = #{zhName,jdbcType=VARCHAR},
+		EN_NAME_ = #{enName,jdbcType=VARCHAR},
+		AREAS_ = #{areas,jdbcType=VARCHAR},
+		PAY_TYPE_ = #{payType,jdbcType=VARCHAR},
+		INNER_CODE_ = #{innerCode,jdbcType=VARCHAR},
+		BACKPAY_CODE_ = #{backpayCode,jdbcType=VARCHAR},
+		CREDIT_FLAG_ = #{creditFlag,jdbcType=VARCHAR},
+		EARNEST_FLAG_ = #{earnestFlag,jdbcType=VARCHAR},
+		STOPPED_ = #{stopped,jdbcType=VARCHAR},
+		UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+		 VERSION = VERSION+1
+		where PAY_CODE_ID_
+		=#{payCodeId}
+	</update>
+
+	<select id="isPayCodeConfigCode" resultType="java.lang.String">
+		select PAY_CODE_ID_
+		payCodeId from pay_code where PAY_CODE_
+		=#{payCodeCode}
+	</select>
+
+	<delete id="deletePayCodeById" parameterType="java.lang.String">
+		delete from
+		pay_code where PAY_CODE_ID_ =#{payCodeId}
+	</delete>
+
+	<insert id="insertPayCode"
+		parameterType="com.whxx.hms.model.PayCode">
+		insert into pay_code (PAY_CODE_ID_, HOTEL_GROUP_ID_,
+		HOTEL_ID_,
+		LINE_NO_, SEQ_, PAY_CODE_,
+		ZH_NAME_, EN_NAME_, AREAS_,
+		PAY_TYPE_, INNER_CODE_, BACKPAY_CODE_,
+		CREDIT_FLAG_, EARNEST_FLAG_,
+		STOPPED_,
+		CREATE_EMP_, CREATE_DATE_, UPDATE_DATE_,
+		UPDATE_EMP_,VERSION)
+		values
+		(#{payCodeId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{lineNo,jdbcType=VARCHAR},
+		#{seq,jdbcType=INTEGER}, #{payCode,jdbcType=VARCHAR},
+		#{zhName,jdbcType=VARCHAR}, #{enName,jdbcType=VARCHAR},
+		#{areas,jdbcType=VARCHAR},
+		#{payType,jdbcType=VARCHAR},
+		#{innerCode,jdbcType=VARCHAR}, #{backpayCode,jdbcType=VARCHAR},
+		#{creditFlag,jdbcType=VARCHAR}, #{earnestFlag,jdbcType=VARCHAR},
+		#{stopped,jdbcType=VARCHAR},
+		#{createEmp,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+		#{updateEmp,jdbcType=VARCHAR},#{version,jdbcType=INTEGER})
+	</insert>
+	
+	<select id="isPayCodeSeq" parameterType="java.lang.String" resultType="java.lang.String">
+	select PAY_CODE_ID_
+		payCodeId from pay_code where SEQ_
+		=#{seq}
+	</select>
+</mapper>

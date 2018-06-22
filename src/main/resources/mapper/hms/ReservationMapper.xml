@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.ReservationMapper">
+
+   <!-- 查询主预订单明细列表 -->
+   <select id="mainOrderList" parameterType="String" resultType="com.whxx.hms.model.dto.Preorder">
+    select 
+     MAIN_INFO_ID_  mainInfoId,
+     PRI_MAIN_ID_ priMainId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 RSV_CLASS_ rsvClass,
+	 RSV_CLASS_NAME rsvClassName,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+	 DAYS_ days,
+	 ROOM_TYPE_ roomType,
+	 ROOM_TYPE_NAME_ roomTypeName,
+	 ROOM_NUM_ roomNum,
+	 RATECODE_CATEGORY_ ratecodeCategory,
+	 RATECODE_CATEGORY_NAME_ ratecodeCategoryName,
+	 RATECODE_ ratecode,
+	 RATECODE_NAME_ ratecodeName,
+	 PACKAGES_ packages,
+	 PACKAGES_NAME_ packagesName,
+	 MEMBER_NO_ groupNo,
+	 MEMBER_NO_NAME_ groupNoName,
+	(SELECT BENEFIT_REASON_ from sub_info m where m.MAIN_ID_ = c.MAIN_ID_ LIMIT 1) benefitReason,
+	(SELECT BENEFIT_REASON_NAME_ from sub_info m where m.MAIN_ID_ = c.MAIN_ID_ LIMIT 1) benefitReasonName,
+	(SELECT REAL_PRICE_ from sub_info m where m.MAIN_ID_ = c.MAIN_ID_ LIMIT 1) dayPrice
+    from main_info c 
+    where 
+    PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    and MAIN_STATUS_ NOT IN ('C','O')
+    order by MAIN_ID_
+  </select>
+  
+   <select id="rsvInfo" parameterType="String" resultType="com.whxx.hms.model.dto.RsvInfo">
+    select 
+     RSV_MAN_ rsvMan,
+     IN_PERSON_ inPerson,
+	 MOBILE_ mobile,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(KEEP_TIME_,'%Y-%m-%d %H:%i') keepTime
+     from main_info
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    and MAIN_STATUS_ NOT IN ('C','O')
+    ORDER BY MAIN_ID_ DESC
+    LIMIT 1
+  </select>
+  
+   <select id="marketing" parameterType="String" resultType="com.whxx.hms.model.dto.Marketing">
+    select 
+     SALESMAN_ salesman,
+     SALESMAN_NAME_ salesmanName,
+	 COMMISSION_CODE_ commissionCode,
+	 COMMISSION_CODE_NAME_ commissionCodeName,
+	 CHANNEL_ channel,
+	 CHANNEL_NAME_ channelName,
+	 PAY_CODE_ payCode,
+	 PAY_CODE_NAME_ payCodeName
+     from main_info
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    and MAIN_STATUS_ NOT IN ('C','O')
+    ORDER BY MAIN_ID_ DESC
+    LIMIT 1
+   </select>
+   
+   
+   <!--查询预授权列表 -->
+   <select id="prelicenceList" parameterType="String" resultType="com.whxx.hms.model.dto.PreLicenceDto">
+     select 
+     CONSUME_ID_ consumeId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+     PRI_MAIN_ID_ priMainId,
+     GOLD_ creditMoney,
+     ACCOUNT_TYPE_ creditPayCode,
+     ACCOUNT_TYPE_NAME_ creditPayCodeName,
+     BANK_NO_ creditNo,
+     PAY_NO_ creditPayNo,
+     PAY_PERSON_ creditMan,
+     CREATE_EMP_ createEmp,
+     DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %H:%i:%s') createDate
+     from consume
+     where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+     AND PRE_FLAG_ = '2'
+     order by CREATE_DATE_ 
+   </select>
+   
+   <!-- 查询预收款笔数和预收款总额 -->
+   <select id="prepayInfo" parameterType="String" resultType="Map">
+    select 
+     COUNT(*) prepayCount,
+     IFNULL(SUM(GOLD_),0) totalPrepay
+     from consume
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    AND PRE_FLAG_ = '1'
+   </select>
+   
+   <!--查询预授权笔数和预收款总额  -->
+   <select id="prelicence" parameterType="String" resultType="Map">
+    select 
+     COUNT(*) creditCount,
+     IFNULL(SUM(GOLD_),0) totalCredit
+     from consume
+     where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+     AND PRE_FLAG_ = '2'
+   </select>
+   
+    <!--查询联单余额、信用-->
+   <select id="unionpay" parameterType="String" resultType="Map">
+    select 
+     IFNULL(sum(CREDIT_),0) unionCredit,
+     IFNULL(sum(PAY_),0) unionPay
+     from sub_info
+     where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+     and MAIN_STATUS_ NOT IN ('C','O')
+   </select>
+   
+   <!-- 查询预订单明细列表 -->
+   <select id="subOrderList" parameterType="String" resultType="com.whxx.hms.model.dto.SubInfoDto">
+     select 
+     SUB_INFO_ID_  subInfoId,
+     SUB_ID_ subId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 IN_TYPE_ inType,
+	 MAIN_STATUS_ mainStatus,
+	 IN_PERSON_ inPerson,
+	 ROOM_TYPE_ roomType,
+	 IFNULL(REAL_PRICE_,0) dayPrice,
+	 ROOM_NO_ roomNo,
+	 ROOM_NUM_ roomNum,
+	 CASE
+	 WHEN LENGTH(IFNULL(ROOM_NO_,'')) > 2 then '1'
+	 ELSE '0' END ifArrange,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+	 DAYS_ days,
+	 CHARGE_ charge,
+	 CREDIT_ credit,
+	 REMARK_ remark
+     from sub_info c
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    and MAIN_STATUS_ NOT IN ('C','O')
+    order by SUB_ID_ ASC
+   </select>
+   
+   
+      <!-- 查询预授权的转移列表 -->
+   <select id="transferList" parameterType="Map" resultType="com.whxx.hms.model.dto.SubInfoDto">
+     select 
+     SUB_INFO_ID_  subInfoId,
+     SUB_ID_ subId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 MAIN_STATUS_ mainStatus,
+	 IN_TYPE_ inType,
+	 IN_PERSON_ inPerson,
+	 ROOM_TYPE_ roomType,
+	 IFNULL(REAL_PRICE_,0) dayPrice,
+	 ROOM_NO_ roomNo,
+	 ROOM_NUM_ roomNum,
+	 CASE
+	 WHEN LENGTH(IFNULL(ROOM_NO_,'')) > 2 then '1'
+	 ELSE '0' END ifArrange,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+	 DAYS_ days,
+	 CHARGE_ charge,
+	 CREDIT_ credit,
+	 REMARK_ remark
+     from sub_info c
+     where HOTEL_ID_=#{hotelId} and HOTEL_GROUP_ID_=#{hotelGroupId} and MAIN_STATUS_ NOT IN ('C','O')
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatus)" >
+       	  and  MAIN_STATUS_ in
+       	 <foreach collection="mainStatus" index="index" item="item" open="(" separator="," close=")">
+             #{item}
+   		 </foreach>
+      </if>
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(search)" >
+       and 
+       (IN_PERSON_ like concat ('%',#{search},'%')  
+       OR ROOM_TYPE_ like concat ('%',#{search},'%') 
+       OR  ROOM_NO_  like concat ('%',#{search},'%'))
+      </if>
+     order by MAIN_STATUS_
+   </select>
+   
+  
+</mapper>

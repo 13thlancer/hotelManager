@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.Pp01Mapper">
+
+	<!-- 查询编码下拉框 -->
+	<select id="selectConfigCode" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		DESC_ id,
+		DESC1_ text
+		FROM TBPP01A
+		WHERE CONFIG_CODE_= #{configCode} AND HOTEL_GROUP_ID_ = #{hotelGroupId} AND HOTEL_ID_ = #{hotelId}
+		<if test="desc2 != null and desc2 != ''">
+			AND DESC2_ = #{desc2}
+		</if>
+		ORDER BY SEQ_ 
+	</select>
+	
+	<!-- 查询App编码下拉框 -->
+	<select id="selectConfigCodeApp" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		DESC_ value,
+		DESC1_ text
+		FROM TBPP01A
+		WHERE CONFIG_CODE_= #{configCode} AND HOTEL_GROUP_ID_ = #{hotelGroupId} and HOTEL_ID_ = #{hotelId}
+		<if test="desc2 != null and desc2 != ''">
+			AND DESC2_ = #{desc2}
+		</if>
+		ORDER BY SEQ_ 
+	</select>
+	
+	<!-- 查询一级项目是否有二级项目 -->
+	<select id="selectIfDelete" parameterType="String"
+		resultType="java.util.Map">
+		SELECT
+		TBPP01A_ID_ tbpp01aId
+		FROM TBPP01A
+		WHERE TBPP01_ID_= #{tbpp01Id}
+	</select>
+	
+	<!-- 查询二级项目顺序号重复 -->
+	<select id="selectRepeatSeq" parameterType="java.util.Map"
+		resultType="String">
+		SELECT
+		TBPP01A_ID_ tbpp01aId
+		FROM TBPP01A
+		WHERE CONFIG_CODE_= #{configCode} AND HOTEL_GROUP_ID_ = #{hotelGroupId} and HOTEL_ID_ = #{hotelId}
+		AND SEQ_ = #{seq}
+	</select>
+	
+	<!-- 查询编码重复 -->
+	<select id="selectRepeatCode" parameterType="java.util.Map"
+		resultType="String">
+		SELECT
+		TBPP01_ID_ tbpp01Id
+		FROM TBPP01
+		WHERE CONFIG_CODE_= #{configCode} AND HOTEL_GROUP_ID_ = #{hotelGroupId} and HOTEL_ID_ = #{hotelId}
+		 AND SYS_FLAG_ = 'Y'
+	</select>
+	
+	
+	<!-- 查询一级编码 分页-->
+	<select id="selectPp01ByPage" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ 		hotelId,
+		(select GROUP_NAME_ from TB_GROUP g where g.HOTEL_GROUP_ID_ = d.HOTEL_GROUP_ID_) groupName,
+		(select HOTEL_NAME_ from TB_HOTEL h where h.HOTEL_ID_ = d.HOTEL_ID_) hotelName,
+		TBPP01_ID_ 		tbpp01Id,
+		CONFIG_CODE_ 	configCode,
+		CONFIG_NAME_ 	configName,
+		LEVEL_ 	level,
+		NOTICE_ 		notice,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T') updateDate,
+		UPDATE_EMP_ updateEmp,
+		VERSION version
+		FROM TBPP01 d
+		WHERE LEVEL_='2'
+		<if test="configCode != null and configCode != ''">
+			AND CONFIG_CODE_ LIKE CONCAT('%',#{configCode},'%') 
+		</if>
+		<if test="configName != null and configName != ''">
+			AND CONFIG_NAME_ LIKE CONCAT('%',#{configName},'%') 
+		</if>
+	</select>
+	
+	<!-- 查询一级系统参数没有二级码编码 分页-->
+	<select id="selectPp01ByPageSys" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ 		hotelId,
+		(select GROUP_NAME_ from TB_GROUP g where g.HOTEL_GROUP_ID_ = d.HOTEL_GROUP_ID_) groupName,
+		(select HOTEL_NAME_ from TB_HOTEL h where h.HOTEL_ID_ = d.HOTEL_ID_) hotelName,
+		TBPP01_ID_ 		tbpp01Id,
+		CONFIG_CODE_ 	configCode,
+		CONFIG_NAME_ 	configName,
+		LEVEL_ 	level,
+		NOTICE_ 		notice,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T') updateDate,
+		UPDATE_EMP_ updateEmp,
+		VERSION version
+		FROM TBPP01 d
+		WHERE LEVEL_='1'
+		<if test="configCode != null and configCode != ''">
+			AND CONFIG_CODE_ LIKE CONCAT('%',#{configCode},'%') 
+		</if>
+		<if test="configName != null and configName != ''">
+			AND CONFIG_NAME_ LIKE CONCAT('%',#{configName},'%') 
+		</if>
+	</select>
+	
+	<!-- 根据查询一级编码id -->
+	<select id="selectPp01ById" parameterType="String"
+		resultType="java.util.Map">
+		SELECT
+		TBPP01_ID_ tbpp01Id,
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ 		hotelId,
+		CONFIG_CODE_ configCode,
+		CONFIG_NAME_ configName,
+		LEVEL_ level,
+		NOTICE_ notice,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T') updateDate,
+		UPDATE_EMP_ updateEmp,
+		VERSION version
+		FROM TBPP01
+		WHERE TBPP01_ID_ = #{tbpp01Id} AND SYS_FLAG_ = 'Y'
+	</select>
+
+	<!-- 查询二级编码分页 -->
+	<select id="selectPp01aByPage" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		TBPP01A_ID_ tbpp01aId,
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ 		hotelId,
+		CONFIG_CODE_ configCode,
+		SEQ_ seq,
+		ZH_NAME_ zhName,EN_NAME_ enName,
+		DESC1_ desc1,
+		DESC2_ desc2,
+		DESC3_ desc3,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T') updateDate,
+		UPDATE_EMP_ updateEmp,
+		VERSION version
+		FROM TBPP01A
+		WHERE TBPP01_ID_ = #{tbpp01Id}
+		
+		ORDER BY SEQ_+0 
+	</select>
+	
+	<!-- 查询二级编码id -->
+	<select id="selectPp01aById" parameterType="String"
+		resultType="java.util.Map">
+		SELECT
+		TBPP01A_ID_ tbpp01aId,
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ 		hotelId,
+		CONFIG_CODE_ configCode,
+		SEQ_ seq,
+		ZH_NAME_ zhName,EN_NAME_ enName,
+		DESC1_ desc1,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		CREATE_EMP_ createEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T') updateDate,
+		UPDATE_EMP_ updateEmp,
+		VERSION version
+		FROM TBPP01A
+		WHERE TBPP01A_ID_ = #{tbpp01aId}
+	</select>
+	
+	<!-- 新增一级编码 -->
+	<insert id="insertTbpp01" parameterType="com.whxx.hms.model.Tbpp01">
+		 INSERT INTO TBPP01 (TBPP01_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+		      CONFIG_CODE_, CONFIG_NAME_, LEVEL_, 
+		      SYS_FLAG_, CONFIG_VALUE_, NOTICE_, 
+		      ZH_NAME_,EN_NAME_,
+		      REMARK1_, REMARK2_, REMARK3_, 
+		      CREATE_EMP_, CREATE_DATE_, UPDATE_DATE_, 
+		      UPDATE_EMP_, VERSION)
+		    values (#{tbpp01Id,jdbcType=VARCHAR}, #{hotelGroupId}, #{hotelId}, 
+		      #{configCode,jdbcType=VARCHAR}, #{configName,jdbcType=VARCHAR}, '2', 
+		     'Y', #{configValue,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, 
+		     '','',
+		      #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{remark3,jdbcType=VARCHAR}, 
+		      #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+		      #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 新增一级编码 -->
+	<insert id="insertTbpp01Sys" parameterType="com.whxx.hms.model.Tbpp01">
+		 INSERT INTO TBPP01 (TBPP01_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+		      CONFIG_CODE_, CONFIG_NAME_, LEVEL_, 
+		      SYS_FLAG_, CONFIG_VALUE_, NOTICE_, 
+		      ZH_NAME_,EN_NAME_,
+		      REMARK1_, REMARK2_, REMARK3_, 
+		      CREATE_EMP_, CREATE_DATE_, UPDATE_DATE_, 
+		      UPDATE_EMP_, VERSION)
+		    values (#{tbpp01Id,jdbcType=VARCHAR}, #{hotelGroupId}, #{hotelId}, 
+		      #{configCode,jdbcType=VARCHAR}, #{configName,jdbcType=VARCHAR}, '1', 
+		     'Y', #{configValue,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, 
+		     #{zhName},#{enName},
+		      #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{remark3,jdbcType=VARCHAR}, 
+		      #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+		      #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER})
+	</insert>
+
+	<!-- 新增二级编码 -->
+	<insert id="insertTbpp01a" parameterType="com.whxx.hms.model.Tbpp01a">
+		insert into tbpp01a (TBPP01A_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+	      TBPP01_ID_, CONFIG_CODE_, SEQ_, 
+	      ZH_NAME_,EN_NAME_,SYS_FLAG_,
+	      DESC_, DESC1_, DESC2_, 
+	      DESC3_, DESC4_, DESC5_, 
+	      DESC6_, DESC7_, DESC8_, 
+	      DESC9_, CREATE_EMP_, CREATE_DATE_, 
+	      UPDATE_DATE_, UPDATE_EMP_, VERSION
+	      )
+	    values (#{tbpp01aId,jdbcType=VARCHAR},  #{hotelGroupId}, #{hotelId},  
+	      #{tbpp01Id,jdbcType=VARCHAR}, #{configCode,jdbcType=VARCHAR}, #{seq,jdbcType=VARCHAR}, 
+	       #{zhName},#{enName},'Y',
+	      #{desc,jdbcType=VARCHAR}, #{desc1,jdbcType=VARCHAR}, #{desc2,jdbcType=VARCHAR}, 
+	      #{desc3,jdbcType=VARCHAR}, #{desc4,jdbcType=VARCHAR}, #{desc5,jdbcType=VARCHAR}, 
+	      #{desc6,jdbcType=VARCHAR}, #{desc7,jdbcType=VARCHAR}, #{desc8,jdbcType=VARCHAR}, 
+	      #{desc9,jdbcType=VARCHAR}, #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+	      #{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}
+     	)
+	</insert>
+
+
+	<!-- 修改一级编码 -->
+	<update id="updateTbpp01" parameterType="com.whxx.hms.model.Tbpp01" >
+		UPDATE  TBPP01 SET
+		 	CONFIG_NAME_ = #{configName},
+			LEVEL_ = #{level},
+			NOTICE_ = #{notice},
+			UPDATE_EMP_ = #{updateEmp},
+			UPDATE_DATE_ = #{updateDate},
+			VERSION = VERSION+1
+		WHERE  TBPP01_ID_ = #{tbpp01Id}
+  	</update>
+  	
+  	<!-- 修改二级编码 -->
+	<update id="updateTbpp01a" parameterType="com.whxx.hms.model.Tbpp01a" >
+		UPDATE TBPP01A SET
+		 	SEQ_ = #{seq},
+			ZH_NAME_ = #{zhName},
+			EN_NAME_ = #{enName},
+			UPDATE_EMP_ = #{updateEmp},
+			UPDATE_DATE_ = #{updateDate},
+			VERSION = VERSION+1
+		WHERE  TBPP01A_ID_ = #{tbpp01aId}
+  	</update>
+
+	<delete id="deleteTbpp01" parameterType="String">
+		delete from TBPP01 WHERE TBPP01_ID_ = #{tbpp01Id}
+	</delete>
+	
+	<delete id="deleteTbpp01a" parameterType="String">
+		DELETE FROM TBPP01A
+		WHERE TBPP01A_ID_ = #{tbpp01aId}
+	</delete>
+  
+</mapper>

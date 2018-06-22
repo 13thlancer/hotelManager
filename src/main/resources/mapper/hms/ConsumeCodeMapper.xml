@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.ConsumeCodeMapper">
+
+	<select id="listConsumeCode" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select
+		CONSUME_CODE_ID_ consumeCodeId, SEQ_ seq, CONSUME_CODE_
+		consumeCode, ZH_NAME_ zhName,
+		EN_NAME_ enName, AREAS_ areas, COST_TYPE_
+		costType, OP_DIVISION_
+		opDivision, IO_ACCOUNT_TYPE_ ioAccountType,
+		BALANCE_TABLE_ balanceTable,
+		ACHIEVEMENT_COUNT_ achievementCount,
+		STOPPED_ stopped, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from consume_code where HOTEL_ID_=#{hotelId} and HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectConsumeCodeByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.ConsumeCode">
+	select
+		CONSUME_CODE_ID_ consumeCodeId, SEQ_ seq, CONSUME_CODE_
+		consumeCode, ZH_NAME_ zhName,
+		EN_NAME_ enName, AREAS_ areas, COST_TYPE_
+		costType, OP_DIVISION_
+		opDivision, IO_ACCOUNT_TYPE_ ioAccountType,
+		BALANCE_TABLE_ balanceTable,
+		ACHIEVEMENT_COUNT_ achievementCount,
+		STOPPED_ stopped, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from consume_code where  ZH_NAME_=#{zhName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updateConsumeCode"
+		parameterType="com.whxx.hms.model.ConsumeCode">
+		update consume_code
+    set 
+      SEQ_ = #{seq,jdbcType=INTEGER},
+      ZH_NAME_ = #{zhName,jdbcType=VARCHAR},
+      EN_NAME_ = #{enName,jdbcType=VARCHAR},
+      AREAS_ = #{areas,jdbcType=VARCHAR},
+      COST_TYPE_ = #{costType,jdbcType=VARCHAR},
+      OP_DIVISION_ = #{opDivision,jdbcType=VARCHAR},
+      IO_ACCOUNT_TYPE_ = #{ioAccountType,jdbcType=VARCHAR},
+      BALANCE_TABLE_ = #{balanceTable,jdbcType=VARCHAR},
+      ACHIEVEMENT_COUNT_ = #{achievementCount,jdbcType=VARCHAR},
+      STOPPED_ = #{stopped,jdbcType=VARCHAR},
+      UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+       VERSION = VERSION+1
+      where CONSUME_CODE_ID_=#{consumeCodeId}
+	</update>
+
+
+</mapper>

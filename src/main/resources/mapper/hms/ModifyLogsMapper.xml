@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.ModifyLogsMapper">
+
+
+ <sql id="Base_Column_List" >
+     MODIFY_LOGS_ID_ modifyLogsId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 LINE_NO_ lineNo,
+	 PRI_MAIN_ID_ priMainId,
+	 TABLE_NAME_ tableName,
+	 PROJECT_ project,
+	 OLD_INFO_ oldInfo,
+	 NEW_INFO_ newInfos,
+	 REMARK1_ remark1,
+	 CREATE_EMP_,
+	 DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %H:%m:%s')
+  </sql>
+  
+  
+	<insert id="insertModifyLogs" parameterType="com.whxx.hms.model.ModifyLogs" >
+    insert into modify_logs (MODIFY_LOGS_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, TABLE_NAME_, PROJECT_, 
+      OLD_INFO_, NEW_INFO_,INFO_,PRI_MAIN_ID_, REMARK1_, 
+      REMARK2_, REMARK3_, REMARK4_, 
+      CREATE_EMP_, CREATE_DATE_, UPDATE_DATE_, 
+      UPDATE_EMP_, VERSION)
+    values (#{modifyLogsId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, 
+      #{oldInfo,jdbcType=VARCHAR}, #{newInfo,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{priMainId,jdbcType=VARCHAR},#{remark1,jdbcType=VARCHAR}, 
+      #{remark2,jdbcType=VARCHAR}, #{remark3,jdbcType=VARCHAR}, #{remark4,jdbcType=VARCHAR}, 
+      #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER})
+  </insert>
+  
+  <select id="selectByPriMainId" parameterType="com.whxx.hms.model.ModifyLogs" resultType="com.whxx.hms.model.ModifyLogs">
+	  select
+	  	<include refid="Base_Column_List"></include>
+	  from modify_logs
+	  where 1 = 1
+	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(tableName)">
+		AND TABLE_NAME_ = #{tableName,jdbcType=VARCHAR}
+	</if>
+	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(priMainId)">
+		AND PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+	</if>
+	order by CREATE_DATE_ desc
+  </select>
+  
+  
+</mapper>

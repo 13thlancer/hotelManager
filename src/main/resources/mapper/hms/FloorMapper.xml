@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.FloorMapper">
+
+    <select id="floorDropList" parameterType="java.util.Map"  resultType="com.whxx.hms.model.dto.DropdownDto">
+		select 
+		FLOOR_CODE_ id,
+		FLOOR_NAME_ text
+		from floor 
+		where HOTEL_ID_=#{hotelId} and HOTEL_GROUP_ID_=#{hotelGroupId}
+		<if test="@com.whxx.core.utils.Ognl@isNotEmpty(building)">
+			AND BUILDING_CODE_ = #{building,jdbcType=VARCHAR}
+		</if>
+		order by SEQ_+ 0
+	</select>
+	
+
+	<select id="listFloor" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select FLOOR_ID_ floorId, FLOOR_CODE_
+		floorCode,
+		FLOOR_NAME_
+		floorName,
+		FLOOR_EN_NAME_
+		floorEnName,SEQ_ seq,
+		BUILDING_CODE_
+		buildingCode,
+		BUILDING_NAME_ buildingName,
+		BUILDING_EN_NAME_
+		buildingEnName,
+		STOPPED_ stopped,
+		REMARK remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_
+		updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from floor
+		where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectFloorByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.Floor">
+		select FLOOR_CODE_
+		floorCode,
+		FLOOR_ID_ floorId,
+		FLOOR_NAME_
+		floorName,
+		FLOOR_EN_NAME_
+		floorEnName,SEQ_ seq,
+		BUILDING_CODE_ buildingCode,
+		BUILDING_NAME_ buildingName,
+		BUILDING_EN_NAME_ buildingEnName,
+		STOPPED_
+		stopped,
+		REMARK remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T') createDate,
+		UPDATE_EMP_
+		updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from floor
+		where FLOOR_NAME_ =#{floorName} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updatefloor"
+		parameterType="com.whxx.hms.model.Floor">
+		update floor
+		set
+		FLOOR_NAME_ = #{floorName,jdbcType=VARCHAR},
+		FLOOR_EN_NAME_ = #{floorEnName,jdbcType=VARCHAR},
+		STOPPED_ = #{stopped,jdbcType=VARCHAR},
+		BUILDING_NAME_ =#{buildingName,jdbcType=VARCHAR},
+		BUILDING_EN_NAME_
+		=#{buildingEnName,jdbcType=VARCHAR},
+		BUILDING_CODE_ =#{buildingCode,jdbcType=VARCHAR},
+		UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_EMP_ =#{updateEmp,jdbcType=TIMESTAMP},
+		 VERSION = VERSION+1
+		where FLOOR_ID_ =#{floorId}
+	</update>
+
+	<select id="isFloorConfigCode" resultType="java.lang.String">
+		select FLOOR_ID_ floorId from floor where FLOOR_CODE_ =#{floorCode} and
+		BUILDING_CODE_=#{buildingCode}
+	</select>
+
+	<delete id="deleteFloorById" parameterType="java.lang.String">
+		delete from floor where FLOOR_ID_ =#{floorId}
+	</delete>
+
+	<insert id="insertFloor"
+		parameterType="com.whxx.hms.model.Floor">
+		insert into floor ( FLOOR_ID_,HOTEL_GROUP_ID_, HOTEL_ID_,
+		LINE_NO_, FLOOR_CODE_, FLOOR_NAME_,
+		FLOOR_EN_NAME_, 
+		BUILDING_NAME_,
+		BUILDING_EN_NAME_,
+		SEQ_,BUILDING_CODE_,
+		STOPPED_, CREATE_EMP_, CREATE_DATE_,
+		UPDATE_DATE_, UPDATE_EMP_, VERSION 
+		)
+		values (#{floorId,jdbcType=VARCHAR},#{hotelGroupId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{lineNo,jdbcType=VARCHAR}, #{floorCode,jdbcType=VARCHAR}, #{floorName,jdbcType=VARCHAR},
+		#{floorEnName,jdbcType=VARCHAR},
+		#{buildingName,jdbcType=VARCHAR},
+		#{buildingEnName,jdbcType=VARCHAR},
+		#{buildingCode,jdbcType=VARCHAR},
+		#{seq,jdbcType=VARCHAR},
+		#{stopped,jdbcType=VARCHAR}, #{createEmp,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR},
+		#{version,jdbcType=INTEGER}
+		)
+	</insert>
+</mapper>

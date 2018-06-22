@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whxx.hms.dao.SalesManMapper" >
+
+	<select id="salesManDropDownList" parameterType="Map" resultType="com.whxx.hms.model.dto.DropdownDto">
+	SELECT
+   `CODE_` id,
+   `NAME_` text
+	FROM
+	sales_man
+	WHERE STOPPED_ = 'N'
+    <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+      AND  HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+     </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+      AND  HOTEL_ID_ = #{hotelId}
+     </if>
+     order by CREATE_DATE_ 
+	</select>
+  
+</mapper>

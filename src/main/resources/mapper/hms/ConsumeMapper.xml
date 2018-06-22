@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.ConsumeMapper">
+
+
+	<sql id="Base_Column_List">
+	 CONSUME_ID_ consumeId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 LINE_NO_ lineNo,
+	 PRI_MAIN_ID_ priMainId,
+	 MAIN_ID_ mainId,
+	 SUB_ID_ subId,
+	 PRE_FLAG_ preFlag,
+	 IN_ROOM_ inRoom,
+	 GOLD_ gold,
+	 ACCOUNT_TYPE_ accountType,
+	 GOOD_TYPE_ goodType,
+	 IN_TYPE_ inType,
+	 THIRD_NO_ thirdNo,
+	 MY_NO_ myNo,
+	 BANK_NO_ bankNo,
+	 PAY_NO_ payNo,
+	 PAY_PERSON_ payPerson,
+	 IN_CODE_ inCode,
+	 REMARK_ remark
+  </sql>
+
+  <insert id="insertConsume" parameterType="com.whxx.hms.model.Consume">
+    insert into consume (CONSUME_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, PRI_MAIN_ID_, MAIN_ID_, 
+      SUB_ID_, PRE_FLAG_, IN_ROOM_, 
+      ACCOUNT_TYPE_, GOOD_TYPE_, IN_TYPE_, 
+      THIRD_NO_, MY_NO_, BANK_NO_, 
+      PAY_NO_, PAY_PERSON_, IN_CODE_,GOLD_, 
+      REMARK_, CREATE_EMP_, CREATE_DATE_, 
+      UPDATE_DATE_, UPDATE_EMP_, VERSION
+      )
+    values (#{consumeId,jdbcType=CHAR}, #{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{priMainId,jdbcType=VARCHAR}, #{mainId,jdbcType=VARCHAR}, 
+      #{subId,jdbcType=VARCHAR}, #{preFlag,jdbcType=VARCHAR}, #{inRoom,jdbcType=VARCHAR}, 
+      #{accountType,jdbcType=VARCHAR}, #{goodType,jdbcType=VARCHAR}, #{inType,jdbcType=VARCHAR}, 
+      #{thirdNo,jdbcType=VARCHAR}, #{myNo,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, 
+      #{payNo,jdbcType=VARCHAR}, #{payPerson,jdbcType=VARCHAR}, #{inCode,jdbcType=VARCHAR}, 
+      #{gold,jdbcType=DECIMAL},
+      #{remark,jdbcType=VARCHAR}, #{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}
+      )
+  </insert>
+  
+    <select id="selectById" parameterType="String" resultType="com.whxx.hms.model.Consume">
+    select 
+    <include refid="Base_Column_List" />
+    from consume
+    where CONSUME_ID_ = #{consumeId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectConsumeBypriMainId" parameterType="com.whxx.hms.model.Consume" resultType="com.whxx.hms.model.Consume">
+    select 
+    <include refid="Base_Column_List" />
+    from consume
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateConsumeById" parameterType="com.whxx.hms.model.Consume">
+    update consume
+    <set>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)" >
+        HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)" >
+        HOTEL_ID_ = #{hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(lineNo)" >
+        LINE_NO_ = #{lineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(priMainId)" >
+        PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainId)" >
+        MAIN_ID_ = #{mainId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(subId)" >
+        SUB_ID_ = #{subId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(preFlag)" >
+        PRE_FLAG_ = #{preFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inRoom)" >
+        IN_ROOM_ = #{inRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(accountType)" >
+        ACCOUNT_TYPE_ = #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(goodType)" >
+        GOOD_TYPE_ = #{goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inType)" >
+        IN_TYPE_ = #{inType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(thirdNo)" >
+        THIRD_NO_ = #{thirdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(myNo)" >
+        MY_NO_ = #{myNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(bankNo)" >
+        BANK_NO_ = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(payNo)" >
+        PAY_NO_ = #{payNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(payPerson)" >
+        PAY_PERSON_ = #{payPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inCode)" >
+        IN_CODE_ = #{inCode,jdbcType=VARCHAR},
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(gold)" >
+        GOLD_ = #{gold,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)" >
+        REMARK_ = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateDate)">
+        UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)">
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(version)">
+        VERSION = #{version,jdbcType=INTEGER}
+      </if>
+    </set>
+    where CONSUME_ID_ = #{consumeId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询首页当日金额（现金、信用卡、其它） -->
+  <select id="selectIndexTotalByType" parameterType="Map" resultType="Map">
+    SELECT 
+	'信用卡' accountType,
+	IFNULL(sum(GOLD_),0) sum
+	FROM consume 
+	WHERE ACCOUNT_TYPE_ = '信用卡' AND DATE(CREATE_DATE_) = #{date}
+	AND HOTEL_GROUP_ID_ = #{hotelGroupId} AND HOTEL_ID_ = #{hotelId}
+	UNION ALL
+	SELECT 
+	'现金' accountType,
+	IFNULL(sum(GOLD_),0) sum
+	FROM consume 
+	WHERE ACCOUNT_TYPE_ = '现金' AND DATE(CREATE_DATE_) = #{date}
+	AND HOTEL_GROUP_ID_ = #{hotelGroupId} AND HOTEL_ID_ = #{hotelId}
+	UNION ALL
+	SELECT 
+	'其它' accountType,
+	IFNULL(sum(GOLD_),0) sum
+	FROM consume 
+	WHERE ACCOUNT_TYPE_ NOT in ('现金','信用卡') AND DATE(CREATE_DATE_) = #{date}
+	AND HOTEL_GROUP_ID_ = #{hotelGroupId} AND HOTEL_ID_ = #{hotelId}
+  </select>
+  
+</mapper>

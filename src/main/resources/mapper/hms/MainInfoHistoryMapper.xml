@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.MainInfoHistoryMapper">
+
+	<insert id="insertMainInfoHistory" parameterType="com.whxx.hms.model.MainInfoHistory" >
+    insert into main_info_history (MAIN_INFO_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, MAIN_ID_, SUB_ID_, 
+      IS_MAIN_, UNION_FLAG_, PRI_MAIN_ID_, 
+      MAIN_STATUS_, RSV_CLASS_, USER_TYPE_, 
+      IN_TYPE_, RSV_MAN_, MOBILE_, 
+      IN_PERSON_, TEL_, RSV_MAN_ID_, 
+      RSV_COMPANY_, GROUP_CODE_, GROUP_MANAGER_, 
+      PARENT_ID_, ROOM_TYPE_, ROOM_NO_, 
+      ROOM_NO_SUB_, RATECODE_, PACKAGES_, 
+      RATECODE_CATEGORY_, ROOM_NUM_, SALESMAN_, 
+      SALESMAN_ID_, MKTACT_CODE_, ADULT_, 
+      CHILDREN_, UP_ROOM_TYPE_, UP_REASON_, 
+      UP_REAMRK_, UP_USER_, DSC_REASON_, 
+      DSC_AMOUNT_, DSC_PERSON_, MEMBER_TYPE_, 
+      MEMBER_NO_, IN_CARD_ID_, BUILDING_, 
+      SRC_, MARKET_, CHANNEL_, 
+      RSV_TYPE_, PAY_CODE_, COMMISSION_CODE_, 
+      AGENCY_, CREDIT_NO_, CREDIT_MAN_, 
+      CREDIT_PAY_NO_, CREDIT_PAY_CODE_, CREDIT_MONEY_, 
+      CHARGE_, PAY_, CREDIT_, 
+      CHARGE_ALL_, PAY_ALL_, CREDIT_ALL_, 
+      REMARK_, PROMOTION_, MKTACT_CODE_SRC_, 
+      PRE_TIME_, PLAN_START_, PLAN_END_, 
+      DAYS_, KEEP_TIME_, CREATE_EMP_, 
+      CREATE_DATE_, UPDATE_DATE_, UPDATE_EMP_, 
+      VERSION)
+    values (#{mainInfoId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{mainId,jdbcType=VARCHAR}, #{subId,jdbcType=VARCHAR}, 
+      #{isMain,jdbcType=VARCHAR}, #{unionFlag,jdbcType=VARCHAR}, #{priMainId,jdbcType=VARCHAR}, 
+      #{mainStatus,jdbcType=VARCHAR}, #{rsvClass,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{inType,jdbcType=VARCHAR}, #{rsvMan,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{inPerson,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{rsvManId,jdbcType=VARCHAR}, 
+      #{rsvCompany,jdbcType=VARCHAR}, #{groupCode,jdbcType=VARCHAR}, #{groupManager,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{roomType,jdbcType=VARCHAR}, #{roomNo,jdbcType=VARCHAR}, 
+      #{roomNoSub,jdbcType=VARCHAR}, #{ratecode,jdbcType=VARCHAR}, #{packages,jdbcType=VARCHAR}, 
+      #{ratecodeCategory,jdbcType=VARCHAR}, #{roomNum,jdbcType=INTEGER}, #{salesman,jdbcType=VARCHAR}, 
+      #{salesmanId,jdbcType=VARCHAR}, #{mktactCode,jdbcType=VARCHAR}, #{adult,jdbcType=INTEGER}, 
+      #{children,jdbcType=INTEGER}, #{upRoomType,jdbcType=VARCHAR}, #{upReason,jdbcType=VARCHAR}, 
+      #{upReamrk,jdbcType=VARCHAR}, #{upUser,jdbcType=VARCHAR}, #{dscReason,jdbcType=VARCHAR}, 
+      #{dscAmount,jdbcType=DECIMAL}, #{dscPerson,jdbcType=VARCHAR}, #{memberType,jdbcType=VARCHAR}, 
+      #{memberNo,jdbcType=VARCHAR}, #{inCardId,jdbcType=VARCHAR}, #{building,jdbcType=VARCHAR}, 
+      #{src,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{rsvType,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR}, #{commissionCode,jdbcType=VARCHAR}, 
+      #{agency,jdbcType=VARCHAR}, #{creditNo,jdbcType=VARCHAR}, #{creditMan,jdbcType=VARCHAR}, 
+      #{creditPayNo,jdbcType=VARCHAR}, #{creditPayCode,jdbcType=VARCHAR}, #{creditMoney,jdbcType=DECIMAL}, 
+      #{charge,jdbcType=DECIMAL}, #{pay,jdbcType=DECIMAL}, #{credit,jdbcType=DECIMAL}, 
+      #{chargeAll,jdbcType=DECIMAL}, #{payAll,jdbcType=DECIMAL}, #{creditAll,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{promotion,jdbcType=VARCHAR}, #{mktactCodeSrc,jdbcType=VARCHAR}, 
+      #{preTime,jdbcType=TIMESTAMP}, #{planStart,jdbcType=TIMESTAMP}, #{planEnd,jdbcType=TIMESTAMP}, 
+      #{days,jdbcType=INTEGER}, #{keepTime,jdbcType=TIMESTAMP}, #{createEmp,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR}, 
+      #{version,jdbcType=INTEGER})
+  </insert>
+  
+  
+</mapper>

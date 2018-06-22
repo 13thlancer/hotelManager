@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.MessagesMapper">
+
+
+	<sql id="Base_Column_List">
+	 MESSAGES_ID_ messagesId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 MAIN_ID_ subId,
+	 READ_FLAG_ readFlag,
+	 DATE(START_TIME_) startTime,
+	 DATE(END_TIME_) endTime,
+	 REMARK_ remark,
+	 ROOM_CODE_ roomCode,
+	 PERSON_ person
+  </sql>
+  
+  <!--加载所有的留言信息  -->
+   <select id="messagesList" parameterType="com.whxx.hms.model.Messages" resultType="com.whxx.hms.model.dto.MessageDto">
+    select 
+    <include refid="Base_Column_List" />
+    from messages
+    where DELETE_FLAG_ = 'N' 
+    and READ_FLAG_ = #{readFlag}
+    AND  HOTEL_GROUP_ID_ =  #{hotelGroupId}  
+    AND  HOTEL_ID_ = #{hotelId}
+    order by CREATE_DATE_ DESC 
+  </select>
+  
+    <!--加载未读条数  -->
+   <select id="unreadCounts" parameterType="com.whxx.hms.model.Messages" resultType="Integer">
+    select 
+    count(MESSAGES_ID_) unreadCounts
+    from messages
+    where  
+    DELETE_FLAG_ = 'N' 
+    and READ_FLAG_ = 'N'
+    AND  HOTEL_GROUP_ID_ =  #{hotelGroupId}  
+    AND  HOTEL_ID_ = #{hotelId}
+  </select>
+
+	<insert id="insertMessages" parameterType="com.whxx.hms.model.Messages">
+    insert into messages (MESSAGES_ID_, HOTEL_GROUP_ID_, HOTEL_ID_, 
+      LINE_NO_, MAIN_ID_, READ_FLAG_, 
+      START_TIME_, END_TIME_, REMARK_, ROOM_CODE_,PERSON_,
+      CREATE_DATE_, CREATE_EMP_, UPDATE_DATE_, 
+      UPDATE_EMP_, VERSION)
+    values (#{messagesId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER}, #{hotelId,jdbcType=INTEGER}, 
+      #{lineNo,jdbcType=VARCHAR}, #{mainId,jdbcType=VARCHAR}, #{readFlag,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{roomCode,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createEmp,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateEmp,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER})
+  </insert>
+  
+  <update id="updateMessagesById" parameterType="com.whxx.hms.model.Messages">
+    update messages
+    <set>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomCode)">
+        ROOM_CODE_ = #{roomCode,jdbcType=VARCHAR},
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(person)">
+        PERSON_ = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(readFlag)">
+        READ_FLAG_ = #{readFlag,jdbcType=VARCHAR},
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(notice)">
+        NOTICE_ = #{notice,jdbcType=VARCHAR},
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)">
+        REMARK_ = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)">
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(version)">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MESSAGES_ID_ = #{messagesId,jdbcType=VARCHAR}
+  </update>
+  
+  
+    <!--加载首页前3条留言信息  -->
+   <select id="indexMessagesList" parameterType="com.whxx.hms.model.Messages" resultType="com.whxx.hms.model.dto.MessageDto">
+    select 
+     MESSAGES_ID_ messagesId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 MAIN_ID_ subId,
+	 REMARK_ remark,
+	 ROOM_CODE_ roomCode,
+	 PERSON_ person,
+	 case 
+	 when (to_days(now()) - to_days(CREATE_DATE_)) &lt;= 0 then DATE_FORMAT(CREATE_date_,'%H:%m')
+	 when YEARWEEK(date_format(CREATE_DATE_,'%Y-%m-%d')) = YEARWEEK(now()) then 
+	 (	CASE dayofweek(CREATE_DATE_)
+		WHEN 1 THEN
+			'周日'
+		WHEN 2 THEN
+			'周一'
+		WHEN 3 THEN
+			'周二'
+		WHEN 4 THEN
+			'周三'
+		WHEN 5 THEN
+			'周四'
+		WHEN 6 THEN
+			'周五'
+		WHEN 7 THEN
+			'周六'
+		END)
+	 else  DATE_FORMAT(CREATE_date_,'%m-%d') 
+	 END createDate
+    from messages
+    where 
+    DELETE_FLAG_ = 'N' 
+    and READ_FLAG_ = 'N'
+    AND  HOTEL_GROUP_ID_ =  #{hotelGroupId}  
+    AND  HOTEL_ID_ = #{hotelId}
+    order by CREATE_DATE_ DESC 
+    limit 3
+  </select>
+  
+  
+</mapper>

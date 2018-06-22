@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.RsvManMapper">
+
+	<select id="listRsvMan" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select RSV_MAN_ID_ rsvManId,
+		MEMBER_TYPE_ memberType ,
+		MEMBER_NO_
+		memberNo, RSV_COMPANY_ rsvCompany,
+		GROUP_MANAGER_
+		groupManager,
+		ADDRESS_ address, CONTACT_PERSON_ contactPerson, MOBILE_
+		mobile,
+		BANK_NO_ bankNo,
+		SALESMAN_ salesman,
+		SALESMAN_ID_ salesmanId,
+		NAME_OTHER_ nameOther,
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d
+		%T') createDate,
+		UPDATE_EMP_
+		updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from
+		rsv_man where
+		HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectRsvManByName" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.RsvMan">
+		select RSV_MAN_ID_ rsvManId,
+		MEMBER_TYPE_ memberType ,
+		MEMBER_NO_
+		memberNo, RSV_COMPANY_ rsvCompany,
+		GROUP_MANAGER_
+		groupManager,
+		ADDRESS_ address, CONTACT_PERSON_ contactPerson, MOBILE_
+		mobile,
+		BANK_NO_ bankNo,
+		SALESMAN_ salesman,
+		SALESMAN_ID_ salesmanId,
+		NAME_OTHER_ nameOther,
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d
+		%T') createDate,
+		UPDATE_EMP_
+		updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d %T')
+		updateDate
+		from
+		rsv_man where
+		RSV_COMPANY_ =#{rsvCompany} and
+		HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<update id="updateRsvMan"
+		parameterType="com.whxx.hms.model.RsvMan">
+		update rsv_man
+		<set>
+			<if test="hotelGroupId != null">
+				HOTEL_GROUP_ID_ = #{hotelGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelId != null">
+				HOTEL_ID_ = #{hotelId,jdbcType=INTEGER},
+			</if>
+			<if test="lineNo != null">
+				LINE_NO_ = #{lineNo,jdbcType=VARCHAR},
+			</if>
+			<if test="memberType != null">
+				MEMBER_TYPE_ = #{memberType,jdbcType=VARCHAR},
+			</if>
+			<if test="memberNo != null">
+				MEMBER_NO_ = #{memberNo,jdbcType=VARCHAR},
+			</if>
+			<if test="rsvCompany != null">
+				RSV_COMPANY_ = #{rsvCompany,jdbcType=INTEGER},
+			</if>
+			<if test="groupManager != null">
+				GROUP_MANAGER_ = #{groupManager,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS_ = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPerson != null">
+				CONTACT_PERSON_ = #{contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE_ = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="bankNo != null">
+				BANK_NO_ = #{bankNo,jdbcType=VARCHAR},
+			</if>
+			<if test="salesman != null">
+				SALESMAN_ = #{salesman,jdbcType=VARCHAR},
+			</if>
+			<if test="salesmanId != null">
+				SALESMAN_ID_ = #{salesmanId,jdbcType=VARCHAR},
+			</if>
+			<if test="nameOther != null">
+				NAME_OTHER_ = #{nameOther,jdbcType=VARCHAR},
+			</if>
+			<if test="createEmp != null">
+				CREATE_EMP_ = #{createEmp,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE_ = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateEmp != null">
+				UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				VERSION = #{version,jdbcType=INTEGER},
+			</if>
+			VERSION = VERSION+1
+		</set>
+		where RSV_MAN_ID_ = #{rsvManId,jdbcType=VARCHAR}
+
+	</update>
+
+	<select id="isDistinctNo" resultType="java.lang.String">
+		select RSV_MAN_ID_
+		rsvManId,
+		from rsv_man where MEMBER_NO_
+		=#{buildingCode}
+	</select>
+
+	<delete id="deleteRsvManById" parameterType="java.lang.String">
+		delete from
+		rsv_man where RSV_MAN_ID_ =#{rsvManId}
+	</delete>
+
+	<insert id="insertRsvMan"
+		parameterType="com.whxx.hms.model.RsvMan">
+		 insert into rsv_man
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rsvManId != null" >
+        RSV_MAN_ID_,
+      </if>
+      <if test="hotelGroupId != null" >
+        HOTEL_GROUP_ID_,
+      </if>
+      <if test="hotelId != null" >
+        HOTEL_ID_,
+      </if>
+      <if test="lineNo != null" >
+        LINE_NO_,
+      </if>
+      <if test="memberType != null" >
+        MEMBER_TYPE_,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO_,
+      </if>
+      <if test="rsvCompany != null" >
+        RSV_COMPANY_,
+      </if>
+      <if test="groupManager != null" >
+        GROUP_MANAGER_,
+      </if>
+      <if test="address != null" >
+        ADDRESS_,
+      </if>
+      <if test="contactPerson != null" >
+        CONTACT_PERSON_,
+      </if>
+      <if test="mobile != null" >
+        MOBILE_,
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO_,
+      </if>
+      <if test="salesman != null" >
+        SALESMAN_,
+      </if>
+      <if test="salesmanId != null" >
+        SALESMAN_ID_,
+      </if>
+      <if test="nameOther != null" >
+        NAME_OTHER_,
+      </if>
+      <if test="createEmp != null" >
+        CREATE_EMP_,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE_,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE_,
+      </if>
+      <if test="updateEmp != null" >
+        UPDATE_EMP_,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rsvManId != null" >
+        #{rsvManId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelGroupId != null" >
+        #{hotelGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="hotelId != null" >
+        #{hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="lineNo != null" >
+        #{lineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvCompany != null" >
+        #{rsvCompany,jdbcType=INTEGER},
+      </if>
+      <if test="groupManager != null" >
+        #{groupManager,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null" >
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesman != null" >
+        #{salesman,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanId != null" >
+        #{salesmanId,jdbcType=VARCHAR},
+      </if>
+      <if test="nameOther != null" >
+        #{nameOther,jdbcType=VARCHAR},
+      </if>
+      <if test="createEmp != null" >
+        #{createEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateEmp != null" >
+        #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+	</insert>
+	
+   <!--查询团队预订的协议单位下拉框  -->
+  <select id="selectGroupDropList" parameterType="com.whxx.hms.model.dto.HotelGroupId" resultType="com.whxx.hms.model.dto.DropdownDto">
+  select 
+  MEMBER_NO_ id,
+  RSV_COMPANY_ text
+  from rsv_man
+  where HOTEL_ID_ = #{hotelId} and HOTEL_GROUP_ID_ = #{hotelGroupId}
+  </select>
+</mapper>

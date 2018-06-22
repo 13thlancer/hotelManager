@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.Pp01aMapper">
+
+	<select id="getTbpp01a" resultType="com.whxx.hms.model.Tbpp01a">
+	select DESC1_ desc1,DESC2_ desc2,DESC3_ desc3,DESC4_ desc4,DESC5_ desc5,DESC6_ desc6,DESC7_ desc7,DESC8_ desc8 from tbpp01a 
+	where HOTEL_ID_=#{hotelId} AND HOTEL_GROUP_ID_=#{hotelGroupId} AND DESC9_=#{desc9}
+	</select>
+  
+</mapper>

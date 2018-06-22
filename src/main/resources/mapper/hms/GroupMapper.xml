@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.GroupMapper">
+	
+	<!-- 集团选择下拉框 -->
+	<select id="selectGroupDropdown" resultType="map">
+		SELECT HOTEL_GROUP_ID_ id,GROUP_NAME_ text
+		FROM tb_group ORDER BY LINE_NO_
+	</select>
+	
+	
+</mapper>

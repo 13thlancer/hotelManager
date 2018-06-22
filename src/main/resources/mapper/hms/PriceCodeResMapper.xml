@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.PriceCodeResMapper">
+
+	<select id="ratecodeDropList" parameterType="java.util.Map" resultType="com.whxx.hms.model.dto.RateCodeDto">
+		SELECT 
+		PRICE_CODE_ id,
+		PRICE_NAME_ text,
+		FORMAT(IFNULL((SELECT GOLD_ FROM price_code_res a where a.ROOM_DATE_STR_ = #{startDate} AND a.ROOM_TYPE_CODE_ = #{roomType} AND a.PRICE_TYPE_ = #{priceType} AND a.PRICE_CODE_ = b.PRICE_CODE_),0),2) dayPrice,
+		FORMAT(IFNULL((SELECT AVG(GOLD_) FROM price_code_res a where a.ROOM_DATE_STR_ &gt;= #{startDate} and a.ROOM_DATE_STR_ &lt;= #{endDate} AND a.ROOM_TYPE_CODE_ = #{roomType} AND a.PRICE_TYPE_ = #{priceType} AND a.PRICE_CODE_ = b.PRICE_CODE_),0),2)  avgPrice,
+		FORMAT(IFNULL((SELECT SUM(GOLD_) FROM price_code_res a where a.ROOM_DATE_STR_ &gt;= #{startDate} and a.ROOM_DATE_STR_ &lt;= #{endDate} AND a.ROOM_TYPE_CODE_ = #{roomType} AND a.PRICE_TYPE_ = #{priceType} AND a.PRICE_CODE_ = b.PRICE_CODE_),0),2)  totalPrice
+		FROM price_code_res b 
+		where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+		GROUP BY price_code_ 
+	</select>
+
+
+</mapper>

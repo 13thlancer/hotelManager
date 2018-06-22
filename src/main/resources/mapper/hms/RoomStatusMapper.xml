@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.RoomStatusMapper">
+
+  <update id="updateRoomStatus" parameterType="com.whxx.hms.model.RoomStatus" >
+    update room_status
+    <set>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(extStatus)" >
+        EXT_STATUS_ = #{extStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inType)" >
+        IN_TYPE_ = #{inType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hourFlag)" >
+        HOUR_FLAG_ = #{hourFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(cleanStatus)" >
+        CLEAN_STATUS_ = #{cleanStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inFlag)" >
+        IN_FLAG_ = #{inFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(lockFlag)" >
+        LOCK_FLAG_ = #{lockFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(arriveFlag)" >
+        ARRIVE_FLAG_ = #{arriveFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(leaveFlag)" >
+        LEAVE_FLAG_ = #{leaveFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(repairFlag)" >
+        REPAIR_FLAG_ = #{repairFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomDateStr)" >
+        ROOM_DATE_STR_ = #{roomDateStr,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(subId)" >
+        SUB_ID_ = #{subId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(realPrice)" >
+        REAL_PRICE_ = #{realPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(benefitReason)" >
+        BENEFIT_REASON_ = #{benefitReason,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomTypeCode)" >
+        ROOM_TYPE_CODE_ = #{roomTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(clockStart)" >
+        CLOCK_START_ = #{clockStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(clockEnd)" >
+        CLOCK_END_ = #{clockEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(lockStart)" >
+        LOCK_START_ = #{lockStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(lockEnd)" >
+        LOCK_END_ = #{lockEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(lockReason)" >
+        LOCK_REASON_ = #{lockReason,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(repairSeason)" >
+        REPAIR_SEASON_ = #{repairSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateDate)" >
+        UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)" >
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(version)" >
+        VERSION = VERSION + 1
+      </if>
+    </set>
+    where 1 = 1
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomStatusId)" >
+         AND ROOM_STATUS_ID_ = #{roomStatusId,jdbcType=VARCHAR}
+      </if>
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomTypeCode)" >
+        AND ROOM_TYPE_CODE_ = #{roomTypeCode,jdbcType=VARCHAR}
+     </if>
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomDateStr)" >
+        AND ROOM_DATE_STR_ = DATE_FORMAT(#{roomDateStr},'%Y%m%d')
+     </if>
+ 	 <if test="@com.whxx.core.utils.Ognl@isNotEmpty(priceCode)" >
+        AND PRICE_CODE_ = #{priceCode,jdbcType=VARCHAR}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomCode)" >
+        AND ROOM_CODE_ = #{roomCode,jdbcType=VARCHAR}
+      </if>
+  </update>
+  
+  <!-- 首页统计房型柱状图 -->
+  <select id="roomTypeBarChart" parameterType="Map" resultType="Map">
+   SELECT 
+	ROOM_TYPE_NAME_ name,
+	NUM_ total,
+	(SELECT COUNT(*) FROM room_status a WHERE IN_FLAG_ = #{inFlag} AND a.ROOM_TYPE_CODE_ = b.ROOM_TYPE_CODE_ AND a.ROOM_DATE_STR_ = #{date}) value
+	FROM room_type b 
+	where 1 = 1
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+      AND  b.HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+     </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+      AND  b.HOTEL_ID_ = #{hotelId}
+     </if>
+	GROUP BY b.ROOM_TYPE_CODE_
+  	<!-- Select 
+  	(select ROOM_TYPE_NAME_ from room_type a where a.ROOM_TYPE_CODE_ = b.ROOM_TYPE_CODE_) name,
+  	(select COUNT(*) from room_type a where a.ROOM_TYPE_CODE_ = b.ROOM_TYPE_CODE_) value,
+  	COUNT(*) total
+  	from Room_status b
+  	WHERE 1 = 1 AND LOCK_FLAG_ = 'N'
+  	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(date)" >
+       AND IN_FLAG_ = #{inFlag}
+     </if>
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(date)" >
+       AND ROOM_DATE_STR_ = DATE_FORMAT(#{date},'%Y%m%d')
+     </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  HOTEL_ID_ = #{hotelId}
+      </if>
+	group by ROOM_TYPE_CODE_ -->
+  </select>
+  
+    <!-- 首页统计房型饼状图 -->
+  <select id="roomStatusPieChart" parameterType="Map" resultType="Map">
+  	SELECT 
+	COUNT(*) value,
+  	CASE
+	WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN '住净' 
+	WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN '空净'
+	WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN '住脏'
+	WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN '空脏'
+  	WHEN REPAIR_FLAG_ = 'Y' THEN '维修'
+	END name
+	FROM room_status
+	WHERE LOCK_FLAG_ = 'N'
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(date)" >
+       AND ROOM_DATE_STR_ = #{date}
+     </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  HOTEL_ID_ = #{hotelId}
+      </if>
+     GROUP BY (	CASE
+		WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN '住净' 
+		WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN '空净'
+		WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN '住脏'
+		WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN '空脏'
+	  	WHEN REPAIR_FLAG_ = 'Y' THEN '维修'
+		END)
+  </select>
+  
+  <!--数据网格汇总情况  -->
+  <select id="selectDatagridTotalInfo" parameterType="Map" resultType="Map">
+     SELECT 
+	'总房数' roomType,
+	(SELECT COUNT(*) FROM room WHERE STOPPED_ = 'N') num
+	UNION ALL
+	SELECT
+	'可买房' roomType,
+	(SELECT (a.totalNum - b.badNum) 
+	FROM
+	(SELECT COUNT(*) totalNum FROM room_status WHERE ROOM_DATE_STR_ = #{date}) a, 
+	(SELECT COUNT(*) badNum FROM room_status WHERE ROOM_DATE_STR_ = #{date} AND (LOCK_FLAG_ = 'Y' OR REPAIR_FLAG_ = 'Y')) b) num
+	UNION ALL
+	SELECT 
+	'钟点房' roomType,
+	(SELECT COUNT(*) FROM room_status WHERE ROOM_DATE_STR_ = #{date} AND HOUR_FLAG_ = 'Y') num
+	UNION ALL
+	SELECT 
+	'免费房' roomType,
+	(SELECT COUNT(*) FROM room_status WHERE ROOM_DATE_STR_ = #{date} AND PRICE_CODE_ = '免费房') num
+	UNION ALL
+	SELECT 
+	'维修房' roomType,
+	(SELECT COUNT(*) FROM room_status WHERE ROOM_DATE_STR_ = #{date} AND REPAIR_FLAG_ = 'Y') num
+	UNION ALL
+	SELECT 
+	'临时房' roomType,
+	(SELECT COUNT(*) FROM room_status WHERE ROOM_DATE_STR_ = #{date} AND EXT_STATUS_ = '临时态') num
+  </select>
+  
+  <!-- 查询首页数据网格业务流转 -->
+  <select id="selectDatagridBussInfo" parameterType="Map" resultType="Map">
+  SELECT 
+	'当前在住' columnName,
+	(SELECT COUNT(*) FROM room_status WHERE IN_FLAG_ = 'Y' AND ROOM_DATE_STR_ = #{dateStr}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_ AND a.MAIN_STATUS_ = 'I' AND PLAN_START_ &gt;= #{date} AND PLAN_END_ &lt;= #{date}) personNum
+	UNION ALL
+	SELECT 
+	'延房' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'I' AND PLAN_END_ = #{date} AND DATE_FORMAT(NOW(),'%H:%m:%s') &gt; '12:00:00') roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_ AND a.MAIN_STATUS_ = 'I' AND a.PLAN_END_ = #{date} AND DATE_FORMAT(NOW(),'%H:%m:%s') &gt; '12:00:00') personNum
+	UNION ALL
+	SELECT 
+	'本日将到' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'R' AND PLAN_START_ = #{date}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_ AND a.MAIN_STATUS_ = 'R' AND PLAN_START_ = #{date}) personNum
+	UNION ALL
+	SELECT 
+	'本日已到' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'I' AND PLAN_START_ = #{date}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_  AND a.MAIN_STATUS_ = 'I' AND PLAN_START_ = #{date}) personNum
+	UNION ALL
+	SELECT 
+	'本日将离' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'I' AND PLAN_END_ = #{date}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_ AND a.MAIN_STATUS_ = 'I' AND PLAN_END_ = #{date}) personNum
+	UNION ALL
+	SELECT 
+	'本日已离' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'O' AND PLAN_END_ = #{date}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_ AND a.MAIN_STATUS_ = 'O' AND PLAN_END_ = #{date}) personNum
+  </select>
+  
+  <!-- 查询首页数据网格本日预测 -->
+  <select id="selectDatagridForecastInfo" parameterType="Map" resultType="Map">
+   SELECT 
+	'本夜占用' columnName,
+	(SELECT COUNT(*) FROM sub_info b WHERE b.MAIN_STATUS_ = 'I'  AND b.PLAN_END_ &gt;= #{date}) roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b WHERE a.SUB_ID_ = b.SUB_ID_ AND a.PLAN_END_ &gt;= #{date} AND a.MAIN_STATUS_ = 'I') personNum
+	UNION ALL
+	SELECT 
+	'本夜可用' columnName,
+	(SELECT (a.totalNum - b.badNum) 
+		FROM
+	(SELECT COUNT(*) totalNum FROM room_status WHERE ROOM_DATE_STR_ = #{dateStr} ) a, 
+	(SELECT COUNT(*) badNum FROM room_status WHERE ROOM_DATE_STR_ = #{dateStr}  AND (LOCK_FLAG_ = 'Y' OR REPAIR_FLAG_ = 'Y')) b) roomNum,
+	-1 personNum
+	UNION ALL
+	SELECT 
+	'散客' columnName,
+	(SELECT COUNT(*) FROM main_info WHERE MAIN_STATUS_ in ('I','R') AND PLAN_START_ = #{date} AND RSV_CLASS_ = 'S') roomNum,
+	(SELECT COUNT(*) FROM main_info a,room_person b  WHERE a.MAIN_ID_ = b.MAIN_ID_ AND a.MAIN_STATUS_ in ('I','R') AND a.RSV_CLASS_ = 'S'  AND PLAN_START_ = #{date}) personNum
+	UNION ALL
+	SELECT 
+	'团队/会议' columnName,
+	(SELECT COUNT(*) FROM sub_info WHERE MAIN_STATUS_ = 'R' AND PLAN_START_ = #{date} AND RSV_CLASS_ = 'G') roomNum,
+	(SELECT COUNT(*) FROM sub_info a,room_person b  WHERE a.SUB_ID_ = b.SUB_ID_  AND RSV_CLASS_ = 'G' AND a.MAIN_STATUS_ = 'I' AND a.PLAN_END_ = #{date} AND DATE_FORMAT(NOW(),'%H:%m:%s') &gt; '12:00:00') personNum
+	UNION ALL
+	SELECT 
+	'预计收入' columnName,
+	(SELECT IFNULL(SUM(GOLD_),0) FROM price_code_res b,
+	(SELECT RATECODE_ ,ROOM_TYPE_,DATE_FORMAT(PLAN_START_,'%Y%m%d') PLAN_START_ FROM sub_info where MAIN_STATUS_ = 'I' AND PLAN_END_ &gt;= #{date}) a
+	 WHERE b.PRICE_CODE_ = a.RATECODE_ AND a.ROOM_TYPE_ = b.ROOM_TYPE_CODE_ AND b.ROOM_DATE_STR_ = a.PLAN_START_) roomNum,
+	-1 personNum
+	UNION ALL
+	SELECT 
+	'平均房价' columnName,
+	IFNULL(((SELECT FORMAT(IFNULL(SUM(GOLD_),0),2) FROM price_code_res b,
+	(SELECT RATECODE_ ,ROOM_TYPE_,DATE_FORMAT(PLAN_START_,'%Y%m%d') PLAN_START_ FROM sub_info where MAIN_STATUS_ = 'I' AND PLAN_END_ &gt;= #{date}) a
+	 WHERE b.PRICE_CODE_ = a.RATECODE_ AND a.ROOM_TYPE_ = b.ROOM_TYPE_CODE_ AND b.ROOM_DATE_STR_ = a.PLAN_START_)/(SELECT COUNT(*) FROM sub_info b WHERE b.MAIN_STATUS_ = 'I'  AND b.PLAN_END_ &gt;= #{date})),0)  roomNum,
+	-1 personNum
+ </select>
+
+	<select id="getListRoomStatus" parameterType="java.util.Map"
+		resultType="com.whxx.hms.model.RoomStatus">
+		select SUB_ID_ subId, IN_FLAG_ inFlag,LOCK_START_ lockStart,LOCK_END_ lockEnd from
+		room_status where ROOM_TYPE_CODE_=#{roomTypeCode} and HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId} and ROOM_DATE_STR_=#{roomDateStr}
+	</select>
+	
+	<!--查询可用房间(空净)  -->
+	<select id="roomCodeList" parameterType="com.whxx.hms.model.RoomStatus" resultType="com.whxx.hms.model.dto.DropdownDto">
+		select 
+		ROOM_CODE_ id, 
+		ROOM_CODE_ text
+		from room_status 
+		where 
+		HOTEL_GROUP_ID_=#{hotelGroupId} 
+		and HOTEL_ID_=#{hotelId} 
+		and ROOM_TYPE_CODE_=#{roomTypeCode} 
+		and ROOM_DATE_STR_=#{roomDateStr}
+		and PRICE_CODE_=#{priceCode} 
+		and CLEAN_STATUS_='Y'
+		and IN_FLAG_= 'N'
+		and LOCK_FLAG_= 'N'
+		order by ROOM_CODE_
+	</select>
+	
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.Tbpp01Mapper">
+
+<select id="listFirstConfig" parameterType="java.util.Map" resultType="java.util.Map">
+select  TBPP01_ID_ tbpp01Id,
+		CONFIG_CODE_ configCode,
+		CONFIG_NAME_ configName,
+		CONFIG_VALUE_ configValue,
+		NOTICE_ notice
+		from tbpp01
+		WHERE LEVEL_ = '2'
+		and HOTEL_GROUP_ID_ =#{hotelGroupId}
+		and HOTEL_ID_ =#{hotelId}
+		and SYS_FLAG_='Y'
+		ORDER BY CREATE_EMP_ DESC
+</select>
+
+<select id="listFirstSystem" parameterType="java.util.Map" resultType="java.util.Map">
+select  TBPP01_ID_ tbpp01Id,
+		CONFIG_CODE_ configCode,
+		CONFIG_NAME_ configName,
+		CONFIG_VALUE_ configValue,
+		NOTICE_ notice
+		from tbpp01
+		WHERE LEVEL_ = '1'
+		and HOTEL_GROUP_ID_ =#{hotelGroupId}
+		and HOTEL_ID_ =#{hotelId}
+		and SYS_FLAG_='Y'
+		<if test="configName != null and configName != ''">
+			AND CONFIG_NAME_ LIKE CONCAT('%',#{configName},'%')
+			</if>
+		ORDER BY CREATE_EMP_ DESC
+</select>
+
+
+</mapper>

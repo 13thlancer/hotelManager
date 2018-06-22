@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+  application:
+      name: Whxxhms
+  cloud:
+    config:
+      uri:  http://10.10.0.13:8888/ #config server 地址
+      label: master
+      profile: '${spring.profiles.active}'
+      username: wuhuaconfig
+      password: wuhuaconfig!@#

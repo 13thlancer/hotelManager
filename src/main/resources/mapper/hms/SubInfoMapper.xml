@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.SubInfoMapper">
+
+
+	<sql id="Base_Column_List">
+	 SUB_INFO_ID_  subInfoId,
+	 HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 LINE_NO_ lineNo, 
+	 MAIN_ID_ mainId,
+	 SUB_ID_ subId,
+	 IS_MAIN_ isMain,
+	 UNION_FLAG_ unionFlag,
+	 PRI_MAIN_ID_ priMainId,
+	 MAIN_STATUS_ mainStatus,
+	MAIN_STATUS_NAME_ mainStatusName,
+	RSV_CLASS_ rsvClass,
+	RSV_CLASS_NAME_ rsvClassName,
+	USER_TYPE_ userType,
+	USER_TYPE_NAME_ userTypeName,
+	IN_TYPE_ inType,
+	IN_TYPE_NAME_ inTypeName,
+	 RSV_MAN_ rsvMan,
+	 MOBILE_ mobile,
+	 IN_PERSON_ inPerson,
+	 TEL_ tel,
+	 RSV_MAN_ID_ rsvManId,
+	 RSV_COMPANY_ rsvCompany,
+	 GROUP_CODE_ groupCode,
+	 GROUP_MANAGER_ groupManager, 
+	 PARENT_ID_ parentId,
+	ROOM_TYPE_ roomType,
+	ROOM_TYPE_NAME_ roomTypeName,
+	ROOM_NO_ roomNo,
+	ROOM_NO_SUB_ roomNoSub,
+	RATECODE_ ratecode,
+	RATECODE_NAME_ ratecodeName,
+	PACKAGES_ packages,
+	PACKAGES_NAME_ packagesName,
+	RATECODE_CATEGORY_ ratecodeCategory,
+	RATECODE_CATEGORY_NAME_ ratecodeCategoryName,
+	 ROOM_NUM_ roomNum,
+	 SALESMAN_ salesman,
+	 MKTACT_CODE_ mktactCode,
+	 ADULT_ adult,
+	 CHILDREN_ children,
+	 UP_ROOM_TYPE_ upRoomType,
+	 UP_REASON_ upReason,
+	 UP_REAMRK_ upReamrk,
+	 UP_USER_ upUser,
+	 DSC_REASON_ dscReason,
+	 DSC_AMOUNT_ dscAmount,
+	 DSC_PERSON_ dscPerson,
+	 MEMBER_TYPE_ memberType,
+	 MEMBER_NO_ memberNo,
+	  MEMBER_NO_NAME_ memberNoName,
+	 IN_CARD_ID_ inCardId,
+	 BUILDING_ building,
+	 SRC_ src,
+	 MARKET_ market,
+	 CHANNEL_ channel,
+	 RSV_TYPE_ rsvType,
+	 PAY_CODE_ payCode,
+	 COMMISSION_CODE_ commissionCode,
+	 COMMISSION_CODE_NAME_ commissionCodeName,
+	 AGENCY_ agency,
+	 CREDIT_NO_ creditNo,
+	 CREDIT_MAN_ creditMan,
+	 CREDIT_PAY_NO_ creditPayNo,
+	 CREDIT_PAY_CODE_ creditPayCode,
+	 CREDIT_MONEY_ creditMoney,
+	 CHARGE_ charge,
+	 PAY_ pay,
+	 CREDIT_ credit,
+	 REMARK_ remark,
+	 IS_SEND_ isSend,
+	 PROMOTION_ promotion,
+	 MKTACT_CODE_SRC_ mktactCodeSrc,
+	 PRE_TIME_ preTime,
+	 PLAN_START_ planStart,
+	 PLAN_END_ planEnd,
+	 IN_TIME_ inTime,
+ 	 OUT_TIME_ outTime,
+	 DAYS_ days,
+	 KEEP_TIME_ keepTime
+  </sql>
+  
+  
+    <select id="selectSubInfoById" parameterType="String" resultType="com.whxx.hms.model.SubInfo">
+    select 
+    <include refid="Base_Column_List" />
+    from sub_info
+    where SUB_INFO_ID_ = #{subInfoId,jdbcType=VARCHAR}
+  </select>
+  
+  
+   <select id="selectByMainId" parameterType="String" resultType="com.whxx.hms.model.SubInfo">
+    select 
+    <include refid="Base_Column_List" />
+    from sub_info
+    where MAIN_ID_ = #{mainId,jdbcType=VARCHAR}
+    order by ROOM_NO_ asc
+  </select>
+  
+   <select id="selectByPriMainId" parameterType="String" resultType="com.whxx.hms.model.SubInfo">
+    select 
+    <include refid="Base_Column_List" />
+    from sub_info
+    where  PRI_MAIN_ID_  = #{priMainId,jdbcType=VARCHAR}
+    order by SUB_ID_ asc
+  </select>
+  
+  
+  <select id="selectPriMainIdBySubId" parameterType="String" resultType="String">
+    select 
+    PRI_MAIN_ID_ priMainId
+    from sub_info
+    where SUB_INFO_ID_ = #{subInfoId,jdbcType=VARCHAR}
+    limit 1
+  </select>
+  
+  
+	<insert id="insertSubInfo" parameterType="com.whxx.hms.model.SubInfo">
+	insert into sub_info (SUB_INFO_ID_, HOTEL_GROUP_ID_, HOTEL_ID_,
+	LINE_NO_, MAIN_ID_, SUB_ID_,
+	IS_MAIN_, UNION_FLAG_, PRI_MAIN_ID_,
+	MAIN_STATUS_,MAIN_STATUS_NAME_,
+	RSV_CLASS_,RSV_CLASS_NAME_,
+	USER_TYPE_,USER_TYPE_NAME_,
+	IN_TYPE_,IN_TYPE_NAME_,
+	RSV_MAN_, MOBILE_,
+	IN_PERSON_, TEL_,
+	ROOM_TYPE_,ROOM_TYPE_NAME_,
+	RATECODE_CATEGORY_,RATECODE_CATEGORY_NAME_,
+	RATECODE_,RATECODE_NAME_,
+	PACKAGES_,PACKAGES_NAME_,
+	ROOM_NUM_,
+	MEMBER_NO_,MEMBER_NO_NAME_,
+	SALESMAN_,SALESMAN_NAME_,
+	MKTACT_CODE_,
+	SRC_,
+	MARKET_, CHANNEL_,CHANNEL_NAME_,
+	PAY_CODE_,PAY_CODE_NAME_,
+	COMMISSION_CODE_,COMMISSION_CODE_NAME_,
+	REMARK_,
+	PRE_TIME_,
+	PLAN_START_, PLAN_END_, DAYS_,
+	REAL_PRICE_,BENEFIT_REASON_,BENEFIT_REASON_NAME_,
+	KEEP_TIME_, CREATE_EMP_, CREATE_DATE_,
+	VERSION
+	)
+	values (#{subInfoId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER},
+	#{hotelId,jdbcType=INTEGER},
+	#{lineNo,jdbcType=VARCHAR}, #{mainId,jdbcType=VARCHAR},#{subId,jdbcType=VARCHAR},
+	#{isMain,jdbcType=VARCHAR}, #{unionFlag,jdbcType=VARCHAR},
+	#{priMainId,jdbcType=VARCHAR},
+	#{mainStatus,jdbcType=VARCHAR},#{mainStatusName,jdbcType=VARCHAR},  
+	#{rsvClass,jdbcType=VARCHAR},#{rsvClassName,jdbcType=VARCHAR},
+	#{userType,jdbcType=VARCHAR},#{userTypeName,jdbcType=VARCHAR},
+	#{inType,jdbcType=VARCHAR},#{inTypeName,jdbcType=VARCHAR},
+	#{rsvMan,jdbcType=VARCHAR},
+	#{mobile,jdbcType=VARCHAR},
+	#{inPerson,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+	#{roomType,jdbcType=VARCHAR}, #{roomTypeName,jdbcType=VARCHAR}, 
+	#{ratecodeCategory,jdbcType=VARCHAR}, 	#{ratecodeCategoryName,jdbcType=VARCHAR},
+	#{ratecode,jdbcType=VARCHAR},#{ratecodeName,jdbcType=VARCHAR},
+	#{packages,jdbcType=VARCHAR},#{packagesName,jdbcType=VARCHAR},
+	#{roomNum,jdbcType=INTEGER}, 
+	#{memberNo,jdbcType=VARCHAR},#{memberNoName,jdbcType=VARCHAR},
+	#{salesman,jdbcType=VARCHAR},#{salesmanName,jdbcType=VARCHAR},
+	#{mktactCode,jdbcType=VARCHAR},
+	#{src,jdbcType=VARCHAR},
+	#{market,jdbcType=VARCHAR}, 
+	#{channel,jdbcType=VARCHAR},#{channelName,jdbcType=VARCHAR},
+	#{payCode,jdbcType=VARCHAR},#{payCodeName,jdbcType=VARCHAR},
+	#{commissionCode,jdbcType=VARCHAR},#{commissionCodeName,jdbcType=VARCHAR},
+	#{remark,jdbcType=VARCHAR},
+	#{preTime,jdbcType=TIMESTAMP},
+	#{planStart,jdbcType=TIMESTAMP}, #{planEnd,jdbcType=TIMESTAMP}, #{days,jdbcType=INTEGER},
+	#{realPrice,jdbcType=VARCHAR},#{benefitReason,jdbcType=VARCHAR},#{benefitReasonName,jdbcType=VARCHAR},
+	#{keepTime,jdbcType=TIMESTAMP},
+	#{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+	#{version,jdbcType=INTEGER}
+	)
+  </insert>
+  
+  
+  <update id="updateSubInfoById" parameterType="com.whxx.hms.model.SubInfo">
+    update sub_info
+    <set>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainId)">
+        MAIN_ID_ = #{mainId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(subId)">
+        SUB_ID_ = #{subId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(isMain)">
+        IS_MAIN_ = #{isMain,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(unionFlag)">
+        UNION_FLAG_ = #{unionFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(priMainId)">
+        PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatus)">
+        MAIN_STATUS_ = #{mainStatus,jdbcType=VARCHAR},
+      </if>
+     	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatusName)">
+			MAIN_STATUS_NAME_ = #{mainStatusName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(rsvClass)">
+        RSV_CLASS_ = #{rsvClass,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(userType)">
+        USER_TYPE_ = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inType)">
+        IN_TYPE_ = #{inType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(rsvMan)">
+        RSV_MAN_ = #{rsvMan,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mobile)">
+        MOBILE_ = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inPerson)">
+        IN_PERSON_ = #{inPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mobile)">
+        TEL_ = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomType)">
+        ROOM_TYPE_ = #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomTypeName)">
+		ROOM_TYPE_NAME_ = #{roomTypeName,jdbcType=VARCHAR},
+	  </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNo)">
+        ROOM_NO_ = #{roomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNoSub)">
+        ROOM_NO_SUB_ = #{roomNoSub,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeCategory)">
+		RATECODE_CATEGORY_ = #{ratecodeCategory,jdbcType=VARCHAR},
+	  </if>
+	  	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeCategoryName)">
+			RATECODE_CATEGORY_NAME_ = #{ratecodeCategoryName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecode)">
+        RATECODE_ = #{ratecode,jdbcType=VARCHAR},
+      </if>
+      	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeName)">
+			RATECODE_NAME_ = #{ratecodeName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(packages)">
+        PACKAGES_ = #{packages,jdbcType=VARCHAR},
+      </if>
+      	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(packagesName)">
+			PACKAGES_NAME_ = #{packagesName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNum)">
+        ROOM_NUM_ = #{roomNum,jdbcType=INTEGER},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(salesman)">
+        SALESMAN_ = #{salesman,jdbcType=VARCHAR},
+      </if>
+     	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(salesmanName)">
+			SALESMAN_NAME_ = #{salesmanName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mktactCode)">
+        MKTACT_CODE_ = #{mktactCode,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberType)">
+        MEMBER_TYPE_ = #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberNo)">
+        MEMBER_NO_ = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberNoName)">
+			MEMBER_NO_NAME_ = #{memberNoName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(src)">
+        SRC_ = #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(market)">
+        MARKET_ = #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(channel)">
+        CHANNEL_ = #{channel,jdbcType=VARCHAR},
+      </if>
+      	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(channelName)">
+			CHANNEL_NAME_ = #{channelName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(payCode)">
+        PAY_CODE_ = #{payCode,jdbcType=VARCHAR},
+      </if>
+      	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(payCodeName)">
+			PAY_CODE_NAME_ = #{payCodeName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(commissionCode)">
+        COMMISSION_CODE_ = #{commissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(commissionCodeName)">
+			COMMISSION_CODE_NAME_ = #{commissionCodeName,jdbcType=VARCHAR},
+		</if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditNo)">
+        CREDIT_NO_ = #{creditNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditMan)">
+        CREDIT_MAN_ = #{creditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditPayNo)">
+        CREDIT_PAY_NO_ = #{creditPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditPayCode)">
+        CREDIT_PAY_CODE_ = #{creditPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(credit)">
+        CREDIT_MONEY_  = CREDIT_MONEY_ + #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(charge)">
+        CHARGE_ = CHARGE_ + #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(pay)">
+        PAY_ = PAY_ + #{pay,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(credit)">
+        CREDIT_ = CREDIT_ + #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)">
+        REMARK_ = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(preTime)">
+        PRE_TIME_ = #{preTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+        PLAN_START_ = #{planStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planEnd)">
+        PLAN_END_ = #{planEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(days)">
+        DAYS_ = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateDate)">
+        UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)">
+        UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(version)">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(isSend)">
+        IS_SEND_ = #{isSend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(inTime)">
+        IN_TIME_ = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(outTime)">
+        OUT_TIME_ = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where 1 = 1
+     <if test="@com.whxx.core.utils.Ognl@isNotEmpty(subInfoId)">
+       AND SUB_INFO_ID_ = #{subInfoId,jdbcType=VARCHAR}
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(priMainId)">
+       AND  PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(isMain)">
+	   AND IS_MAIN_ = #{isMain,jdbcType=VARCHAR}
+	  </if>
+	   <if test="@com.whxx.core.utils.Ognl@isNotEmpty(subId)">
+	   AND  SUB_ID_ = #{subId,jdbcType=VARCHAR}
+	  </if>
+  </update>
+  
+	<!-- 查询subId后缀最大值 -->
+	<select id="selectSubIdSuffix" parameterType="String" resultType="String">
+		SELECT IFNULL(SUBSTR(MAX(SUB_ID_),7),'00000') FROM sub_info WHERE SUB_ID_ LIKE CONCAT(DATE_FORMAT(NOW(),'%y%m%d'),'%')
+	</select>
+	
+	<!--查询首页本日未到  -->
+	<select id="selectDayNoInNums" parameterType="com.whxx.hms.model.dto.SubInfoDto" resultType="Integer">
+	 select 
+	 ifnull(sum(ROOM_NUM_),0)
+     from sub_info 
+     where 1 = 1   AND  MAIN_STATUS_ = 'R'
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+       AND  DATE(PLAN_START_) = #{planStart}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  HOTEL_GROUP_ID_ =  #{hotelGroupId}
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  HOTEL_ID_ = #{hotelId}
+      </if>
+      </select>
+      
+     <!--查询首页本日未离、本日已到、本日已离  -->
+	<select id="selectInDayNums" parameterType="com.whxx.hms.model.dto.SubInfoDto" resultType="Integer">
+	 select 
+	 ifnull(sum(ROOM_NUM_),0)
+     from sub_info
+     where 1 = 1
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+       AND  DATE(PLAN_START_) = #{planStart}
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planEnd)">
+       AND  DATE(PLAN_END_) =  #{planEnd}
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatus)">
+       AND  MAIN_STATUS_ = #{mainStatus}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  HOTEL_GROUP_ID_ =  #{hotelGroupId} 
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  HOTEL_ID_ = #{hotelId}
+      </if>
+	</select>
+	
+	<!--查询首页本日未到-->
+	<select id="selectDayNoInList" parameterType="com.whxx.hms.model.dto.SubInfoDto" resultType="com.whxx.hms.model.dto.MainInfoDto">
+	 select 
+     MAIN_INFO_ID_  subInfoId,
+     PRI_MAIN_ID_ priMainId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 IN_TYPE_ inType,
+	 IN_PERSON_ inPerson,
+	 ROOM_TYPE_ roomType,
+	 ROOM_NO_ roomNo,
+	 ROOM_NUM_ - (select count(*) from sub_info a where a.MAIN_ID_ = c.MAIN_ID_ AND MAIN_STATUS_ = 'I') roomNum,
+	 IFNULL((SELECT b.REAL_PRICE_ FROM room_status b
+	 WHERE b.ROOM_TYPE_CODE_ = c.ROOM_TYPE_ 
+	 and b.PRICE_CODE_ = c.RATECODE_ 
+	 and ROOM_DATE_STR_ = #{planStart} LIMIT 1),0) dayPrice,
+	 MOBILE_ mobile,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+   	 DATE_FORMAT(KEEP_TIME_,'%H:%i') keepTime
+     from main_info c
+     where 1 = 1 
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+       AND  DATE(c.PLAN_START_) = #{planStart}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  c.HOTEL_GROUP_ID_ =  #{hotelGroupId}
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  c.HOTEL_ID_ = #{hotelId}
+      </if>
+      ORDER BY c.PLAN_START_ DESC 
+	</select>
+	
+	
+	<!--查询首页本日未离、本日已到、本日已离  -->
+	<select id="selectInDayList" parameterType="com.whxx.hms.model.dto.SubInfoDto" resultType="com.whxx.hms.model.dto.MainInfoDto">
+	 select 
+     SUB_INFO_ID_  subInfoId,
+     PRI_MAIN_ID_ priMainId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 IN_TYPE_ inType,
+	 IN_PERSON_ inPerson,
+	 ROOM_TYPE_ roomType,
+	 ROOM_NO_ roomNo,
+	 IFNULL((SELECT b.REAL_PRICE_ FROM room_status b
+	 WHERE b.ROOM_TYPE_CODE_ = c.ROOM_TYPE_ 
+	 and b.PRICE_CODE_ = c.RATECODE_ 
+	 AND ROOM_DATE_STR_ = #{planStart} limit 1),0) dayPrice,
+	 CHARGE_ charge,
+	 MOBILE_ mobile,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+   	 DATE_FORMAT(KEEP_TIME_,'%H:%i') keepTime
+     from sub_info c
+     where 1 = 1
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+       AND  DATE(c.PLAN_START_) = #{planStart}
+      </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(planEnd)">
+       AND  DATE(c.PLAN_END_) =  #{planEnd}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatus)">
+       AND  c.MAIN_STATUS_ = #{mainStatus}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  c.HOTEL_GROUP_ID_ =  #{hotelGroupId}
+      </if>
+        <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  c.HOTEL_ID_ = #{hotelId}
+      </if>
+      ORDER BY c.PLAN_START_ DESC 
+	</select>
+	
+  <!-- 首页在住分布饼状图 -->
+  <select id="inRoomPieChart" parameterType="Map" resultType="Map">
+	 SELECT 
+	(select DESC1_ from tbpp01a a where a.DESC_ = b.PRICE_TYPE_ and CONFIG_CODE_ = 'ROOM_PRICE_TYPE') name,
+	COUNT(*) value 
+	FROM room_status a 
+	LEFT JOIN price_code_res b
+	on a.PRICE_CODE_ = b.PRICE_CODE_
+  	WHERE  a.IN_FLAG_ = 'Y'
+  	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(date)" >
+       AND a.ROOM_DATE_STR_ = #{date}
+     </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelGroupId)">
+       AND  a.HOTEL_GROUP_ID_ =  #{hotelGroupId}
+      </if>
+      <if test="@com.whxx.core.utils.Ognl@isNotEmpty(hotelId)">
+       AND  a.HOTEL_ID_ = #{hotelId}
+      </if>
+	GROUP BY b.PRICE_TYPE_
+  </select>
+  
+  
+	<select id="getSubInfo" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.SubInfo">
+
+		select PLAN_START_ planStart,PLAN_END_ planEnd,KEEP_TIME_
+		keepTime from
+		sub_info where SUB_INFO_ID =#{subInfoId}
+	</select>
+	
+	<!--根据mainId删除子单明细表  -->
+	<delete id="deleteByMainId" parameterType="String">
+	delete from sub_info where MAIN_ID_ =#{mainId}
+	</delete>
+	
+	<!--根据主键删除明细表  -->
+	<delete id="deleteById" parameterType="String">
+	delete from sub_info where SUB_INFO_ID_ =#{subInfoId}
+	</delete>
+	
+	<!--根据subId查询mainId  -->
+	<select id="priMainIdBySubId" parameterType="String" resultType="String">
+		select
+		PRI_MAIN_ID_ priMainId
+		from sub_info
+		where SUB_ID_ = #{subId,jdbcType=VARCHAR}
+		limit 1
+	</select>
+	
+	<!-- 查询子单的SubId(预付款信息累加到主单上面)-->
+	<select id="selectSubIdByIsMain" parameterType="String"  resultType="String">
+		SELECT SUB_ID_ subId FROM
+		sub_info 
+		WHERE PRI_MAIN_ID_ = #{priMainId} 
+		AND IS_MAIN_ = 'Y'
+		limit 1
+	</select>
+	
+	 <!-- 查询批量处理列表（只包含预订） -->
+   <select id="batchOrderList" parameterType="String" resultType="com.whxx.hms.model.dto.SubInfoDto">
+     select 
+     SUB_INFO_ID_  subInfoId,
+     SUB_ID_ subId,
+     HOTEL_GROUP_ID_ hotelGroupId,
+	 HOTEL_ID_ hotelId,
+	 MAIN_STATUS_ mainStatus,
+	 IN_PERSON_ inPerson,
+	 ROOM_TYPE_ roomType,
+	  IFNULL((SELECT b.REAL_PRICE_ FROM room_status b
+		WHERE b.ROOM_TYPE_CODE_ = c.ROOM_TYPE_
+		and b.PRICE_CODE_ = c.RATECODE_ 
+		and ROOM_DATE_STR_ = DATE_FORMAT(PLAN_START_,'%Y%m%d') 
+		LIMIT 1
+		),0) dayPrice,
+	 ROOM_NO_ roomNo,
+	 ROOM_NUM_ roomNum,
+	 CASE
+	 WHEN LENGTH(IFNULL(ROOM_NO_,'')) &gt; 2 then 'Y'
+	 ELSE 'N' END ifArrange,
+	 DATE_FORMAT(PLAN_START_,'%Y-%m-%d %H:%i') planStart,
+   	 DATE_FORMAT(PLAN_END_,'%Y-%m-%d %H:%i') planEnd,
+	 DAYS_ days,
+	 CHARGE_ charge,
+	 CREDIT_ credit,
+	 REMARK_ remark
+     from sub_info c
+    where PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+    and MAIN_STATUS_  = 'R'
+    and LENGTH(IFNULL(ROOM_NO_,'')) &lt; 2
+	ORDER BY SUB_ID_
+   </select>
+  
+</mapper>

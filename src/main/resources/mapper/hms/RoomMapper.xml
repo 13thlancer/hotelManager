@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.RoomMapper">
+
+	<select id="listRooms" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select ROOM_ID roomId,
+		ROOM_CODE_ roomCode,ROOM_NAME_
+		roomName,ROOM_EN_NAME_ roomEnName,
+		ROOM_TYPE_CODE_
+		roomTypeCode,ROOM_TYPE_NAME_ roomTypeName,
+		ROOM_TYPE_EN_NAME_
+		roomTypeEnName, LOCK_ROOM_NO_ lockRoomNo,
+		FLOOR_CODE_ floorCode,
+		FLOOR_NAME_ floorName, FLOOR_EN_NAME_ floorEnName, BUILDING_CODE_
+		buildingCode,
+		BUILDING_NAME_ buildingName, BUILDING_EN_NAME_
+		buildingEnName, SEQ_ seq,
+		STOPPED_ stopped, HOUR_FLAG_ hourFlag,
+		ROOM_SPEC_ roomSpec, BEDS_ beds, TEL_ tel, TEL_SHORT_ telShort, REMARK
+		remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T')
+		createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d
+		%T')
+		updateDate
+		from room where HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="selectRoomByRoomCode" parameterType="java.lang.String"
+		resultType="com.whxx.hms.model.Room">
+		select ROOM_ID roomId, ROOM_CODE_ roomCode,ROOM_NAME_
+		roomName,ROOM_EN_NAME_ roomEnName,
+		ROOM_TYPE_CODE_
+		roomTypeCode,ROOM_TYPE_NAME_ roomTypeName,
+		ROOM_TYPE_EN_NAME_
+		roomTypeEnName, LOCK_ROOM_NO_ lockRoomNo,
+		FLOOR_CODE_ floorCode,
+		FLOOR_NAME_ floorName, FLOOR_EN_NAME_ floorEnName, BUILDING_CODE_
+		buildingCode,
+		BUILDING_NAME_ buildingName, BUILDING_EN_NAME_
+		buildingEnName, SEQ_ seq,
+		STOPPED_ stopped, HOUR_FLAG_ hourFlag,
+		ROOM_SPEC_ roomSpec, BEDS_ beds, TEL_ tel, TEL_SHORT_ telShort, REMARK
+		remark, CREATE_EMP_
+		createEmp,
+		DATE_FORMAT(CREATE_DATE_,'%Y-%m-%d %T')
+		createDate,
+		UPDATE_EMP_ updateEmp,
+		DATE_FORMAT(UPDATE_DATE_,'%Y-%m-%d
+		%T')
+		updateDate
+		FROM room where FLOOR_CODE_ =#{roomCode} and  HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+
+	<select id="isRoomConfigCode" resultType="java.lang.String">
+		select ROOM_ID roomId
+		from room where ROOM_CODE_ =#{roomCode}
+	</select>
+
+	<insert id="insertRoom" parameterType="com.whxx.hms.model.Room">
+		insert into room (ROOM_ID,
+		HOTEL_GROUP_ID_, HOTEL_ID_,
+		LINE_NO_, ROOM_CODE_, ROOM_NAME_,
+		ROOM_EN_NAME_, ROOM_TYPE_CODE_, ROOM_TYPE_NAME_,
+		ROOM_TYPE_EN_NAME_,
+		LOCK_ROOM_NO_, FLOOR_CODE_,
+		FLOOR_NAME_, FLOOR_EN_NAME_,
+		BUILDING_CODE_,
+		BUILDING_NAME_, BUILDING_EN_NAME_,
+		STOPPED_,
+		ROOM_SPEC_,
+		BEDS_, TEL_, TEL_SHORT_,
+		REMARK, CREATE_EMP_, CREATE_DATE_,
+		UPDATE_DATE_, UPDATE_EMP_,VERSION
+		)
+		values
+		(#{roomId,jdbcType=VARCHAR},#{hotelGroupId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{lineNo,jdbcType=VARCHAR},
+		#{roomCode,jdbcType=VARCHAR}, #{roomName,jdbcType=VARCHAR},
+		#{roomEnName,jdbcType=VARCHAR}, #{roomTypeCode,jdbcType=VARCHAR},
+		#{roomTypeName,jdbcType=VARCHAR},
+		#{roomTypeEnName,jdbcType=VARCHAR},
+		#{lockRoomNo,jdbcType=VARCHAR}, #{floorCode,jdbcType=VARCHAR},
+		#{floorName,jdbcType=VARCHAR}, #{floorEnName,jdbcType=VARCHAR},
+		#{buildingCode,jdbcType=VARCHAR},
+		#{buildingName,jdbcType=VARCHAR},
+		#{buildingEnName,jdbcType=VARCHAR}, 
+		#{stopped,jdbcType=VARCHAR},#{roomSpec,jdbcType=VARCHAR},
+		#{beds,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR},
+		#{telShort,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},
+		#{createEmp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP}, #{updateEmp,jdbcType=VARCHAR},
+		#{version,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<update id="updateRoom" parameterType="com.whxx.hms.model.Room">
+		update room
+		set ROOM_NAME_
+		= #{roomName,jdbcType=VARCHAR},
+		ROOM_EN_NAME_ =
+		#{roomEnName,jdbcType=VARCHAR},
+		ROOM_TYPE_CODE_ =
+		#{roomTypeCode,jdbcType=VARCHAR},
+		ROOM_TYPE_NAME_ =
+		#{roomTypeName,jdbcType=VARCHAR},
+		ROOM_TYPE_EN_NAME_ =
+		#{roomTypeEnName,jdbcType=VARCHAR},
+		LOCK_ROOM_NO_ =
+		#{lockRoomNo,jdbcType=VARCHAR},
+		FLOOR_CODE_ =
+		#{floorCode,jdbcType=VARCHAR},
+		FLOOR_NAME_ =
+		#{floorName,jdbcType=VARCHAR},
+		FLOOR_EN_NAME_ =
+		#{floorEnName,jdbcType=VARCHAR},
+		BUILDING_CODE_ =
+		#{buildingCode,jdbcType=VARCHAR},
+		BUILDING_NAME_ =
+		#{buildingName,jdbcType=VARCHAR},
+		BUILDING_EN_NAME_ =
+		#{buildingEnName,jdbcType=VARCHAR},
+		SEQ_ = #{seq,jdbcType=INTEGER},
+		STOPPED_ = #{stopped,jdbcType=VARCHAR},
+		HOUR_FLAG_ =
+		#{hourFlag,jdbcType=VARCHAR},
+		ROOM_SPEC_ =
+		#{roomSpec,jdbcType=VARCHAR},
+		BEDS_ = #{beds,jdbcType=INTEGER},
+		TEL_ =
+		#{tel,jdbcType=VARCHAR},
+		TEL_SHORT_ = #{telShort,jdbcType=VARCHAR},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		UPDATE_DATE_ =
+		#{updateDate,jdbcType=TIMESTAMP},
+		UPDATE_EMP_ =
+		#{updateEmp,jdbcType=VARCHAR},
+		VERSION = VERSION+1
+		where
+		ROOM_ID=#{roomId}
+	</update>
+
+	<delete id="deleteRoomById" parameterType="java.lang.String">
+		delete from room where
+		ROOM_ID =#{roomId}
+	</delete>
+
+	<select id="getRoomList" parameterType="java.util.Map"
+		resultType="java.lang.String">
+		select ROOM_CODE_ roomCode from room where ROOM_TYPE_CODE_ =#{roomTypeCode}
+		and HOTEL_ID_=#{hotelId} and HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+	
+	<!--根据房型查询房间下拉框  -->
+	<select id="roomDropDownList" parameterType="java.util.Map" resultType="com.whxx.hms.model.dto.RoomDto">
+	   select 
+	    b.CLEAN_STATUS_ cleanStatus,
+	    b.IN_FLAG_ inFlag,
+		b.ROOM_TYPE_CODE_ roomTypeCode,
+		(select ROOM_TYPE_NAME_ from room_type c where c.ROOM_TYPE_CODE_ = b.ROOM_TYPE_CODE_) roomTypeName,
+		a.ROOM_CODE_ code,
+		CASE
+		WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN 'OC' 
+		WHEN CLEAN_STATUS_ = 'Y' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN 'VC'
+		WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'Y' and REPAIR_FLAG_ = 'N' THEN 'OD'
+		WHEN CLEAN_STATUS_ = 'N' and IN_FLAG_ = 'N' and REPAIR_FLAG_ = 'N' THEN 'VD'
+		END sign,
+		(select desc1_ from tbpp01a n where n.CONFIG_CODE_ = 'ROOM_LOCATION' AND n.desc_ = a.ROOM_SPEC_ limit 1) roomSpec
+		FROM room a RIGHT JOIN room_status b
+		on a.ROOM_CODE_ = b.ROOM_CODE_
+		where  a.STOPPED_= 'N' 
+		AND a.HOTEL_ID_=#{hotelId} 
+		and a.HOTEL_GROUP_ID_=#{hotelGroupId}
+		<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomTypeCode)" >
+         AND a.ROOM_TYPE_CODE_ =#{roomTypeCode}
+       </if>
+       <if test="@com.whxx.core.utils.Ognl@isNotEmpty(floorName)" >
+         AND a.FLOOR_NAME_ LIKE CONCAT('%',#{floorName},'%') 
+       </if> 
+	</select>
+</mapper>

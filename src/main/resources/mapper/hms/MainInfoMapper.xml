@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whxx.hms.dao.MainInfoMapper">
+
+
+	<sql id="Base_Column_List">
+		MAIN_INFO_ID_ mainInfoId,
+		HOTEL_GROUP_ID_ hotelGroupId,
+		HOTEL_ID_ hotelId,
+		LINE_NO_ lineNo,
+		MAIN_ID_ mainId,
+		IS_MAIN_ isMain,
+		UNION_FLAG_ unionFlag,
+		PRI_MAIN_ID_ priMainId,
+		MAIN_STATUS_ mainStatus,
+		MAIN_STATUS_NAME_ mainStatusName,
+		RSV_CLASS_ rsvClass,
+		RSV_CLASS_NAME_ rsvClassName,
+		USER_TYPE_ userType,
+		USER_TYPE_NAME_ userTypeName,
+		IN_TYPE_ inType,
+		IN_TYPE_NAME_ inTypeName,
+		RSV_MAN_ rsvMan,
+		MOBILE_ mobile,
+		IN_PERSON_ inPerson,
+		TEL_ tel,
+		RSV_MAN_ID_ rsvManId,
+		RSV_COMPANY_ rsvCompany,
+		GROUP_CODE_ groupCode,
+		GROUP_MANAGER_
+		groupManager,
+		PARENT_ID_ parentId,
+		ROOM_TYPE_ roomType,
+		ROOM_TYPE_NAME_ roomTypeName,
+		ROOM_NO_ roomNo,
+		ROOM_NO_SUB_ roomNoSub,
+		RATECODE_ ratecode,
+		RATECODE_NAME_ ratecodeName,
+		PACKAGES_ packages,
+		PACKAGES_NAME_ packagesName,
+		RATECODE_CATEGORY_ ratecodeCategory,
+		RATECODE_CATEGORY_NAME_ ratecodeCategoryName,
+		ROOM_NUM_ roomNum,
+		SALESMAN_ salesman,
+		SALESMAN_NAME_ salesmanName,
+		MKTACT_CODE_ mktactCode,
+		ADULT_ adult,
+		CHILDREN_ children,
+		UP_ROOM_TYPE_ upRoomType,
+		UP_REASON_ upReason,
+		UP_REAMRK_ upReamrk,
+		UP_USER_ upUser,
+		DSC_REASON_ dscReason,
+		DSC_AMOUNT_ dscAmount,
+		DSC_PERSON_ dscPerson,
+		MEMBER_TYPE_ memberType,
+		MEMBER_NO_ memberNo,
+		MEMBER_NO_NAME_ memberNoName,
+		IN_CARD_ID_ inCardId,
+		BUILDING_ building,
+		SRC_ src,
+		MARKET_ market,
+		CHANNEL_ channel,
+		RSV_TYPE_ rsvType,
+		PAY_CODE_ payCode,
+		PAY_CODE_NAME_ payCodeName,
+		COMMISSION_CODE_ commissionCode,
+		COMMISSION_CODE_NAME_ commissionCodeName,
+		AGENCY_ agency,
+		CREDIT_NO_ creditNo,
+		CREDIT_MAN_
+		creditMan,
+		CREDIT_PAY_NO_ creditPayNo,
+		CREDIT_PAY_CODE_ creditPayCode,
+		CREDIT_MONEY_ creditMoney,
+		CHARGE_ charge,
+		PAY_ pay,
+		CREDIT_ credit,
+		CHARGE_ALL_ chargeAll,
+		PAY_ALL_ payAll,
+		CREDIT_ALL_ creditAll,
+		REMARK_
+		remark,
+		PROMOTION_ promotion,
+		MKTACT_CODE_SRC_ mktactCodeSrc,
+		PRE_TIME_
+		preTime,
+		PLAN_START_ planStart,
+		PLAN_END_ planEnd,
+		DAYS_ days,
+		KEEP_TIME_
+		keepTime
+	</sql>
+	
+
+	<insert id="insertMainInfo"
+		parameterType="com.whxx.hms.model.MainInfo">
+		insert into main_info (MAIN_INFO_ID_, HOTEL_GROUP_ID_,
+		HOTEL_ID_,
+		LINE_NO_, MAIN_ID_,
+		IS_MAIN_, UNION_FLAG_, PRI_MAIN_ID_,
+		MAIN_STATUS_,MAIN_STATUS_NAME_, 
+		RSV_CLASS_,RSV_CLASS_NAME, 
+		USER_TYPE_,USER_TYPE_NAME_,
+		IN_TYPE_,IN_TYPE_NAME_, 
+		RSV_MAN_, MOBILE_,
+		IN_PERSON_, TEL_, 
+		ROOM_TYPE_,ROOM_TYPE_NAME_, 
+		RATECODE_CATEGORY_,RATECODE_CATEGORY_NAME_,
+		RATECODE_,RATECODE_NAME_, 
+		PACKAGES_,PACKAGES_NAME_,
+		ROOM_NUM_,
+		MEMBER_NO_,MEMBER_NO_NAME_,
+		SALESMAN_,SALESMAN_NAME_,
+		MKTACT_CODE_,
+		SRC_,
+		MARKET_, CHANNEL_,CHANNEL_NAME_,
+		PAY_CODE_,PAY_CODE_NAME_,
+		COMMISSION_CODE_,COMMISSION_CODE_NAME_,
+		REMARK_,
+		PRE_TIME_,
+		PLAN_START_, PLAN_END_, DAYS_,
+		KEEP_TIME_, CREATE_EMP_, CREATE_DATE_,
+		VERSION
+		)
+		values
+		(#{mainInfoId,jdbcType=VARCHAR}, #{hotelGroupId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{lineNo,jdbcType=VARCHAR},
+		#{mainId,jdbcType=VARCHAR},
+		#{isMain,jdbcType=VARCHAR},
+		#{unionFlag,jdbcType=VARCHAR}, #{priMainId,jdbcType=VARCHAR},
+		#{mainStatus,jdbcType=VARCHAR},#{mainStatusName,jdbcType=VARCHAR},  
+		#{rsvClass,jdbcType=VARCHAR},#{rsvClassName,jdbcType=VARCHAR},
+		#{userType,jdbcType=VARCHAR},#{userTypeName,jdbcType=VARCHAR},
+		#{inType,jdbcType=VARCHAR},#{inTypeName,jdbcType=VARCHAR},
+		#{rsvMan,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+		#{inPerson,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+		#{roomType,jdbcType=VARCHAR}, #{roomTypeName,jdbcType=VARCHAR}, 
+		#{ratecodeCategory,jdbcType=VARCHAR}, 	#{ratecodeCategoryName,jdbcType=VARCHAR},
+		#{ratecode,jdbcType=VARCHAR},#{ratecodeName,jdbcType=VARCHAR},
+		#{packages,jdbcType=VARCHAR},#{packagesName,jdbcType=VARCHAR},
+		#{roomNum,jdbcType=INTEGER},
+		#{memberNo,jdbcType=VARCHAR},#{memberNoName,jdbcType=VARCHAR},
+		#{salesman,jdbcType=VARCHAR},#{salesmanName,jdbcType=VARCHAR},
+		#{mktactCode,jdbcType=VARCHAR},
+		#{src,jdbcType=VARCHAR},
+		#{market,jdbcType=VARCHAR},
+		#{channel,jdbcType=VARCHAR},#{channelName,jdbcType=VARCHAR},
+		#{payCode,jdbcType=VARCHAR},#{payCodeName,jdbcType=VARCHAR},
+		#{commissionCode,jdbcType=VARCHAR},#{commissionCodeName,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},
+		#{preTime,jdbcType=TIMESTAMP},
+		#{planStart,jdbcType=TIMESTAMP},
+		#{planEnd,jdbcType=TIMESTAMP}, #{days,jdbcType=INTEGER},
+		#{keepTime,jdbcType=TIMESTAMP}, #{createEmp,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{version,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<select id="selectMainInfoById" parameterType="String"
+		resultType="com.whxx.hms.model.MainInfo">
+		select
+		<include refid="Base_Column_List" />
+		from main_info
+		where MAIN_INFO_ID_ = #{mainInfoId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByPriMainId" parameterType="String"
+		resultType="com.whxx.hms.model.MainInfo">
+		select
+		<include refid="Base_Column_List" />
+		from main_info
+		where PRI_MAIN_ID_  = #{priMainId,jdbcType=VARCHAR}
+		order by MAIN_ID_
+	</select>
+	
+	<delete id="deleteById" parameterType="String">
+	delete from main_info  where MAIN_INFO_ID_ = #{mainInfoId,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateMainInfoById"
+		parameterType="com.whxx.hms.model.MainInfo">
+		update main_info
+		<set>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(isMain)">
+				IS_MAIN_ = #{isMain,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(unionFlag)">
+				UNION_FLAG_ = #{unionFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatus)">
+				MAIN_STATUS_ = #{mainStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainStatusName)">
+				MAIN_STATUS_NAME_ = #{mainStatusName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(rsvMan)">
+				RSV_MAN_ = #{rsvMan,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(mobile)">
+				MOBILE_ = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(inPerson)">
+				IN_PERSON_ = #{inPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(tel)">
+				TEL_ = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomType)">
+				ROOM_TYPE_ = #{roomType,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomTypeName)">
+				ROOM_TYPE_NAME_ = #{roomTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNo)">
+				ROOM_NO_ = #{roomNo,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNoSub)">
+				ROOM_NO_SUB_ = #{roomNoSub,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeCategory)">
+				RATECODE_CATEGORY_ = #{ratecodeCategory,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeCategoryName)">
+				RATECODE_CATEGORY_NAME_ = #{ratecodeCategoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecode)">
+				RATECODE_ = #{ratecode,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(ratecodeName)">
+				RATECODE_NAME_ = #{ratecodeName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(packages)">
+				PACKAGES_ = #{packages,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(packagesName)">
+				PACKAGES_NAME_ = #{packagesName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(roomNum)">
+				ROOM_NUM_ = #{roomNum,jdbcType=INTEGER},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(salesman)">
+				SALESMAN_ = #{salesman,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(salesmanName)">
+				SALESMAN_NAME_ = #{salesmanName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberType)">
+				MEMBER_TYPE_ = #{memberType,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberNo)">
+				MEMBER_NO_ = #{memberNo,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(memberNoName)">
+				MEMBER_NO_NAME_ = #{memberNoName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(inCardId)">
+				IN_CARD_ID_ = #{inCardId,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(src)">
+				SRC_ = #{src,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(market)">
+				MARKET_ = #{market,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(channel)">
+				CHANNEL_ = #{channel,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(channelName)">
+				CHANNEL_NAME_ = #{channelName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(payCode)">
+				PAY_CODE_ = #{payCode,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(payCodeName)">
+				PAY_CODE_NAME_ = #{payCodeName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(commissionCode)">
+				COMMISSION_CODE_ = #{commissionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(commissionCodeName)">
+				COMMISSION_CODE_NAME_ = #{commissionCodeName,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditNo)">
+				CREDIT_NO_ = #{creditNo,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditMan)">
+				CREDIT_MAN_ = #{creditMan,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditPayNo)">
+				CREDIT_PAY_NO_ = #{creditPayNo,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditPayCode)">
+				CREDIT_PAY_CODE_ = #{creditPayCode,jdbcType=VARCHAR},
+			</if>
+		  	<if test="@com.whxx.core.utils.Ognl@isNotEmpty(credit)">
+        	    CREDIT_MONEY_  = CREDIT_MONEY_ + #{credit,jdbcType=DECIMAL},
+      		</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(charge)">
+				CHARGE_ = CHARGE_ + #{charge,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(pay)">
+				PAY_ = PAY_ + #{pay,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(credit)">
+				CREDIT_ = CREDIT_ + #{credit,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(chargeAll)">
+				CHARGE_ALL_ = CHARGE_ALL_ +
+				#{chargeAll,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(payAll)">
+				PAY_ALL_ = PAY_ALL_ + #{payAll,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(creditAll)">
+				CREDIT_ALL_ = CREDIT_ALL_ +
+				#{creditAll,jdbcType=DECIMAL},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(remark)">
+				REMARK_ = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(preTime)">
+				PRE_TIME_ = #{preTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(planStart)">
+				PLAN_START_ = #{planStart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(planEnd)">
+				PLAN_END_ = #{planEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(days)">
+				DAYS_ = #{days,jdbcType=INTEGER},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(keepTime)">
+				KEEP_TIME_ = #{keepTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateDate)">
+				UPDATE_DATE_ = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(updateEmp)">
+				UPDATE_EMP_ = #{updateEmp,jdbcType=VARCHAR},
+			</if>
+			<if test="@com.whxx.core.utils.Ognl@isNotEmpty(version)">
+				VERSION = VERSION + 1
+			</if>
+		</set>
+		where 1 = 1
+		<if test="@com.whxx.core.utils.Ognl@isNotEmpty(mainInfoId)">
+			AND MAIN_INFO_ID_ = #{mainInfoId,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.whxx.core.utils.Ognl@isNotEmpty(priMainId)">
+			AND PRI_MAIN_ID_ = #{priMainId,jdbcType=VARCHAR}
+		</if>
+		<if test="@com.whxx.core.utils.Ognl@isNotEmpty(isMain)">
+			AND IS_MAIN_ = #{isMain,jdbcType=VARCHAR}
+		</if>
+	</update>
+
+
+	<!-- 查询MainId后缀最大值 -->
+	<select id="selectMainIdSuffix" parameterType="String"
+		resultType="String">
+		SELECT IFNULL(SUBSTR(MAX(MAIN_ID_),7),'00000') FROM
+		main_info WHERE MAIN_ID_ LIKE CONCAT(DATE_FORMAT(NOW(),'%y%m%d'),'%')
+	</select>
+
+	<!-- 查询主单的MainId(预付款信息累加到主单上面)-->
+	<select id="selectMainIdByIsMain" parameterType="String"  resultType="String">
+		SELECT MAIN_ID_ mainId FROM
+		main_info 
+		WHERE PRI_MAIN_ID_ = #{priMainId} 
+		AND IS_MAIN_ = 'Y'
+		limit 1
+	</select>
+
+	<select id="getListMainInfo" parameterType="java.util.Map"
+		resultType="com.whxx.hms.model.MainInfo">
+
+		select PLAN_START_ planStart,PLAN_END_ planEnd,KEEP_TIME_
+		keepTime from
+		main_info where ROOM_NO_=#{roomNo} and
+		HOTEL_ID_=#{hotelId} and
+		HOTEL_GROUP_ID_=#{hotelGroupId}
+	</select>
+	
+	
+</mapper>
